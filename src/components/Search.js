@@ -1,8 +1,10 @@
 import React from 'react'
-import { Input } from '@chakra-ui/react'
+import { Input,Box } from '@chakra-ui/react'
 const Search = () => {
   return (
-   <Input placeholder='Search'/>
+    <div className=''>
+        <Input placeholder='Search' focusBorderColor = "blue.500" borderColor="black.1000"/>
+   </div>
   )
 }
 export default Search;
