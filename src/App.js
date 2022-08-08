@@ -1,18 +1,22 @@
 import Search from './components/Search';
 import './App.css';
 import Header from './components/Header';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import AddData from './components/AddData';
 
 function App() {
   return (
-    <div className="App">
     
+    <BrowserRouter>
       <Header>
-      
-      <Search/>
+        <Routes>
+
+          <Route path="/" element={<Search/>}/>
+          <Route path='/add' element={<AddData/>}/>
+        </Routes>
 
       </Header>
-      
-    </div>
+    </BrowserRouter>
   );
 }
 

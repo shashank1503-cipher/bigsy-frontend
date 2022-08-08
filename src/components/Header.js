@@ -29,16 +29,20 @@ import {
   FiMenu,
   FiBell,
   FiChevronDown,
+  FiPlus
 } from 'react-icons/fi';
+
+import {useNavigate} from 'react-router-dom'
 
 
 
 const LinkItems = [
-  { name: 'Home', icon: FiHome },
-  { name: 'Notification', icon: FiBell },
-  { name: 'Explore', icon: FiCompass },
-  { name: 'Favourites', icon: FiStar },
-  { name: 'Settings', icon: FiSettings },
+  { name: 'Home', icon: FiHome , link: '/'},
+  // { name: 'Notification', icon: FiBell },
+  // { name: 'Explore', icon: FiCompass },
+  // { name: 'Favourites', icon: FiStar },
+  // { name: 'Settings', icon: FiSettings },
+  {name: 'Add Data', icon: FiPlus, link: "/add"}
 ];
 
 export default function SidebarWithHeader({
@@ -91,7 +95,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
+        <NavItem key={link.name} close={onClose} icon={link.icon} link={link.link}>
           {link.name}
         </NavItem>
       ))}
@@ -100,9 +104,16 @@ const SidebarContent = ({ onClose, ...rest }) => {
 };
 
 
-const NavItem = ({ icon, children, ...rest }) => {
+const NavItem = ({ icon,link, children,close, ...rest }) => {
+  const navigate = useNavigate()
+
+  const send = () => {
+    navigate(link)
+    close()
+  }
+
   return (
-    <Link href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
+    <Link onClick={() => send()} style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
       <Flex
         align="center"
         p="4"
