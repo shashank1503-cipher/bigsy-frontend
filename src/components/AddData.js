@@ -28,12 +28,30 @@ function AddData() {
             if(toast!=null)
                 toast.closeAll()
 
-                setTimeout(() => 
-            toast({
-                status:'success',
-                duration: 4000,
-                title: 'Data posted'
-            }), 0)
+            setTimeout(() => 
+                toast({
+                    status:'success',
+                    duration: 4000,
+                    title: 'Data posted'
+                }), 0
+            )
+
+            setSending(0)
+        }
+
+        if(sending === 3)
+        {
+            if(toast!=null)
+                toast.closeAll()
+
+            setTimeout(() => 
+                toast({
+                    status:'error',
+                    duration: 6000,
+                    isClosable: true,
+                    title: 'Error posting data!'
+                }), 0
+            )
 
             setSending(0)
         }
@@ -80,8 +98,11 @@ function AddData() {
         const json = await res.json()
         console.log(json)
 
-        // setTimeout(() => setSending(2),2000);
+        
+        if(json.status === 0)
+            setSending(3)
 
+        else
         setSending(2);
 
     }

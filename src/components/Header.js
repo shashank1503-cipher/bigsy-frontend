@@ -42,7 +42,8 @@ const LinkItems = [
   // { name: 'Explore', icon: FiCompass },
   // { name: 'Favourites', icon: FiStar },
   // { name: 'Settings', icon: FiSettings },
-  {name: 'Add Data', icon: FiPlus, link: "/add"}
+  {name: 'Add Data', icon: FiPlus, link: "/add"},
+  {name: 'All Indices', icon: FiPlus, link: "/indices"},
 ];
 
 export default function SidebarWithHeader({
