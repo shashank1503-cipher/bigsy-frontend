@@ -23,8 +23,8 @@ export default function AdminCard(props) {
         boxShadow={"2xl"}
         rounded={"md"}
         overflow={"hidden"}
-        minW={'25vw'}
-        _hover={{ transform: "scale(1.1)" }}
+        minW={'250px'}
+        _hover={{ transform: "scale(1.05)" }}
         cursor={"pointer"}
       >
         <Stack
