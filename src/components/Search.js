@@ -140,6 +140,7 @@ const Search = () => {
       direction={'column'}
       justifyContent={'center'}
       gap={3}
+      transition="0.5s ease"
     >
       <Flex
         gap={2}
