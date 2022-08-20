@@ -1,13 +1,19 @@
 import { Button, Flex, Heading, Input, Text, useToast } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-// import fs from 'fs'
+import { FileUploader } from "react-drag-drop-files";
+import { FiUpload } from "react-icons/fi";
 
 function ImportSql() {
   const [file, setFile] = useState("");
   const [name, setName] = useState("");
   const [sending, setSending] = useState(0);
   const toast = useToast();
+  let fileTypes = ["sql","sqlite3"];
+  const handleChange = (file) => {
+    setFile(file);
+  };
 
+  console.log(file);
   useEffect(() => {
     if (sending === 0) return;
 
@@ -84,7 +90,7 @@ function ImportSql() {
         <Heading fontSize={"5xl"}>Import SQL</Heading>
         <Text>Drop Your SQL Dumps Here to Add it to the Database</Text>
       </Flex>
-      <Flex direction={"column"} p={12} margin={'auto'} gap={5}>
+      <Flex direction={"column"} p={12} margin={"auto"} gap={5}>
         <Input
           type={"text"}
           onChange={(e) => setName(e.target.value)}
@@ -93,10 +99,42 @@ function ImportSql() {
           borderColor="gray.500"
           value={name}
         />
-        <Input
-          type={"file"}
-          onChange={(e) => setFile(e.target.files[0])}
-          border={"none"}
+        <FileUploader
+          handleChange={handleChange}
+          name="file"
+          types={fileTypes}
+          hoverTitle={`Drag and drop ${fileTypes} files here`}
+          onTypeError={() =>
+            toast({
+              status: "warning",
+              title: "Wrong File Type",
+              description: "Wrong File Type",
+              duration: 1000,
+              isClosable: true,
+            })
+          }
+          children={
+            <Flex
+              bg={"blackAlpha.600"}
+              boxShadow={"2xl"}
+              rounded={"md"}
+              overflow={"hidden"}
+              w={["full", "full", "350px", "450px"]}
+              p={12}
+              borderStyle={"dashed"}
+              borderWidth={"2px"}
+              borderColor={"grey"}
+              justifyContent={"space-evenly"}
+              gap={10}
+              direction={["column", "column", "row", "row"]}
+              alignItems={"center"}
+            >
+              <Text fontSize={"3xl"}>
+                <FiUpload />
+              </Text>
+              <Text fontSize={"xl"}>Drop File Here</Text>
+            </Flex>
+          }
         />
 
         <Button onClick={() => ImportSql()}>Add Data</Button>
