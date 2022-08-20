@@ -12,8 +12,8 @@ const Admin = () => {
       <Heading textAlign={"center"} fontSize={'5xl'}  >Dashboard</Heading>
       <Flex justifyContent={"space-evenly"} flexWrap={"wrap"} align={"center"} minH={"55vh"}>
         <AdminCard title={"Add Data to DB"} icon={FiPlus}  url={'/add'}/>
-        <AdminCard title={"Upload File"} icon={FiUpload} url={'/upload'}/>
-        <AdminCard title={"Get Collections From DB"} icon={HiOutlineTable} />
+        <AdminCard title={"Upload File"} icon={FiUpload} />
+        <AdminCard title={"Get Collections From DB"} icon={HiOutlineTable} url={'/indices'} />
         <AdminCard title={"Import SQL Dumps"} icon={FiDatabase} url={'/importsql'}/>
         <AdminCard title={"Get Stats"} icon={IoIosStats} />
       </Flex>

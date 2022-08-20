@@ -6,6 +6,8 @@ import ImportSql from './components/ImportSql';
 import Admin from './components/Admin';
 import AddDataToDB from './components/AddDataToDB';
 import Upload from './components/Upload';
+import Indexes from './components/Indexes';
+import Index from './components/Index';
 
 function App() {
   return (
@@ -16,10 +18,11 @@ function App() {
           <Route path='/importsql' element={<ImportSql/>}/>
           <Route path='/admin' element={<Admin/>}/>
           <Route path="/add" element={<AddDataToDB/>}/>
+          <Route path='/indices' element={<Indexes/>}/>
+          <Route path='/index' element={<Index/>}/>
           <Route path="/upload" element={<Upload/>}/>
           <Route path='/' element={<Search/>}/>
         </Routes>
-
       </Header>
     </BrowserRouter>
   );
