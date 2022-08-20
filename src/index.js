@@ -5,13 +5,16 @@ import App from "./App";
 import { ChakraProvider } from "@chakra-ui/react";
 import reportWebVitals from "./reportWebVitals";
 import { AddDataProvider } from "./context/AddDataContext";
+import { AppProvider } from './context/AppContext';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ChakraProvider>
-    <AddDataProvider>
-      <App />
-    </AddDataProvider>
+      <AppProvider>
+        <AddDataProvider>
+          <App />
+        </AddDataProvider>
+      </AppProvider>
   </ChakraProvider>
 );
 
