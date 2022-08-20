@@ -101,7 +101,7 @@ const Search = () => {
             }
           }
 
-          data.push({...m, main_index})
+          data.push({...m, main_index, match_string:search})
 
         })
 
@@ -231,6 +231,13 @@ const Search = () => {
       >
         {mainData.map(m => {
 
+          let match
+          if(m?._source?.doctype === 'text' || !m?._source?.doctype)
+          {
+              match = m?._source[m?.main_index].toLowerCase().match(m?.match_string)
+              match = match.index
+          }
+
           return (
     
             <Flex 
@@ -248,7 +255,7 @@ const Search = () => {
               alignItems={'center'}
               cursor={'pointer'}
             >
-              {m?._source?.doctype === 'text'?
+              {m?._source?.doctype === 'text' || !m?._source?.doctype?
               <>
                 <Flex
                   direction={'column'}
@@ -264,7 +271,13 @@ const Search = () => {
                     <Text
                       color={'gray.500'}
                       fontSize={'14px'}
-                    >{m?._source[m.main_index]}</Text>
+                    >
+                      {m?._source[m.main_index].slice(0, match)}
+                      <Text as={'mark'} bgColor={'cyan.700'} color={'white'} p={1}>
+                        {m?._source[m.main_index].slice(match, match+m?.match_string.length)}
+                      </Text>
+                      {m?._source[m.main_index].slice(match+m?.match_string.length)}
+                    </Text>
                 </Flex>
                 <Text>{m.main_index}</Text>
               </>:

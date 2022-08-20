@@ -39,8 +39,7 @@ import { useNavigate } from "react-router-dom";
 
 const LinkItems = [
   { name: "Home", icon: FiHome, link: "/" },
-  { name: "Dashboard", icon: AiOutlineDashboard, link: "/admin" },,
-  {name: 'All Indices', icon: FiPlus, link: "/indices"},
+  { name: "Dashboard", icon: AiOutlineDashboard, link: "/admin" },
 ];
 
 export default function SidebarWithHeader({ children }) {

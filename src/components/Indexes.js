@@ -1,6 +1,7 @@
 import { 
     Button,
-    Flex
+    Flex,
+    useColorModeValue
 } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -11,37 +12,38 @@ function Indexes() {
     const {indices} = useApp()
     const navigate = useNavigate()
 
+    const color = useColorModeValue("white", "gray.800")
+
     const goToIndex =(o) => navigate({
         pathname: '/index',
         search: `?index=${o}`
     })
 
-    const createIndice = async () => {
-
-    }
-
+    
     return (
         <Flex
-            direction={'column'}
-            gap={3}
+            direction={'row'}
+            wrap={'wrap'}
+            gap={5}
+            justifyContent="space-evenly"
         >
-
-            <Button onClick={() => createIndice()}>Create</Button>
-
             {indices.length > 0 && indices.map(o => {
                 return (
                     <Flex
                         cursor={'pointer'}
-                        border={'1px'}
-                        px={4}
-                        py={2}
+                        px={5}
+                        py={5}
                         key={o}
-                        borderRadius={20}
-                        borderColor={'gray.600'}
+                        maxW={'250px'}
+                        minW={'200px'}
+                        bg={color}
+                        alignItems={'center'}
+                        justifyContent={'center'}
+                        fontWeight={500}
+                        boxShadow={"2xl"}
+                        rounded={"md"}
                         transition={'all 0.2s ease'}
-                        _hover={{
-                            borderColor:'gray.400'
-                        }}
+                        _hover={{ transform: "scale(1.1)" }}
                         onClick={() => goToIndex(o)}
                     >
                         {o}
