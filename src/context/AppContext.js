@@ -10,12 +10,19 @@ export const AppProvider = ({children}) => {
 
     const getIndices = async () => {
 
-        const res = await fetch('http://localhost:8000/get/indices')
-        const data = await res.json()
-        // console.log(data)
-        console.log(data)
+        try
+        {
+            const res = await fetch('http://localhost:8000/get/indices')
+            const data = await res.json()
+            // console.log(data)
+            console.log(data)
 
-        setIndices([...data?.data])
+            setIndices([...data?.data])
+        }
+        catch{
+            
+        }
+        
 
     }
 

@@ -1,4 +1,4 @@
-import { Button, Flex, Heading, Input, Text, useToast } from "@chakra-ui/react";
+import { Button, Flex, Heading, Input, Text, Toast, useToast } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import Card from "./Card";
 import { FiImage, FiFile, FiUpload } from "react-icons/fi";
@@ -21,6 +21,12 @@ const Upload = () => {
     setFile(file);
   };
   let toast = useToast();
+
+  useEffect(() => {
+
+      
+
+  }, [file])
 
   function capitalize(word) {
     const lower = word.toLowerCase();

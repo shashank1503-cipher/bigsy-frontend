@@ -7,29 +7,40 @@ import {
   Text,
   Toast,
   useToast,
+  Image,
+  position,
+
 } from '@chakra-ui/react'
+
 
 import {
   FaSearch,
   FaArrowRight,
   FaFilePdf,
   FaFileImage,
-  FaFileAudio
+  FaFileAudio,
+  FaFileWord
 } from 'react-icons/fa'
 import FilterModal from '../utils/FilterModal'
 
-
+import ReactAudioPlayer from 'react-audio-player'
 
 const Search = () => {
 
   const [search, setSearch] = useState("")
   const [rawData,setRawData] = useState(null)
-  const [mainData, setMainData] = useState([])
+  const [mainData, setMainData] = useState({
+    text: [],
+    image: [],
+    doc: [],
+    sound: []
+  })
   const [totalPages, setTotalPages] = useState([])
   const [filters, setFilters] = useState({
     index: [],
     doc: []
   })
+
   const [page,  setPage] = useState(1)
   const toast = useToast()
 
@@ -76,7 +87,12 @@ const Search = () => {
 
     if(rawData)
     {
-        let data = []
+        let data = {
+          text: [],
+          image: [],
+          doc: [],
+          sound: []
+        }
         rawData?.data?.map(m => {
             
           if(search.trim().length === 0)
@@ -88,6 +104,7 @@ const Search = () => {
           console.log(arr1)
 
           let main_index = null;
+          let match_string = ""
           for(let i = 0; i<Object.keys(m._source).length; i++)
           {
             let arr2 = m._source[Object.keys(m._source)[i]].toString().toLowerCase()
@@ -97,15 +114,19 @@ const Search = () => {
             if(inter.length > 0)
             {
               main_index = Object.keys(m._source)[i]
+              match_string = inter[0]
               break;
             }
           }
 
-          data.push({...m, main_index, match_string:search})
+          if(m?._source?.doc_type === 'pdf')
+            data['doc'].push({...m, main_index, match_string:match_string})
+          else 
+            data[m?._source?.doc_type].push({...m, main_index, match_string:match_string})
 
         })
 
-        setMainData([...data])
+        setMainData({...data})
 
     }
 
@@ -180,7 +201,7 @@ const Search = () => {
           gap={1}
           // bg={'blue.300'}
         >
-          {totalPages.map(p => {
+          {totalPages?.map(p => {
 
             if(p <= 2);
             else if(p >= totalPages.length-2);
@@ -226,41 +247,50 @@ const Search = () => {
 
 
       <Flex
-        gap={2}
-        direction={'column'}  
+        gap={5}
+        direction={'row'}  
+        wrap={'wrap'}
+        // alignItems={'flex-start'}
+        w={'full'}
       >
-        {mainData.map(m => {
+        {mainData['text']?.map(m => {
 
           let match
-          if(m?._source?.doctype === 'text' || !m?._source?.doctype)
+          if(m?._source?.doc_type === 'text' || !m?._source?.doc_type)
           {
               match = m?._source[m?.main_index].toLowerCase().match(m?.match_string)
-              match = match.index
+              match = match?.index
           }
+          // console.log(m?.main_index)
+          console.log(match, m._source[m?.main_index].length)
 
           return (
-    
-            <Flex 
-              key={m._id}
-              justifyContent={'space-between'}
-              _hover={{
-                borderColor:'cyan.600'
-              }}
-              border={"1px"}
-              borderColor='gray.600'
-              borderRadius={10}
-              px={4}
-              py={1}
-              role={'group'}
+            <Flex
+              w={'full'}
               alignItems={'center'}
-              cursor={'pointer'}
+              justifyContent={'center'}
             >
-              {m?._source?.doctype === 'text' || !m?._source?.doctype?
-              <>
+
+              <Flex 
+                key={m._id}
+                justifyContent={'space-between'}
+                _hover={{
+                  transform: "scale(1.05)"
+                }}
+                transition={'all 0.2s ease-in-out'}
+                w={'90%'}
+                rounded={'md'}
+                px={4}
+                py={1}
+                role={'group'}
+                bg={'gray.800'}
+                alignItems={'center'}
+                cursor={'pointer'}
+              >
+              
                 <Flex
                   direction={'column'}
                 >
-
                     <Text
                       fontSize={20}
                       _groupHover={{
@@ -280,35 +310,200 @@ const Search = () => {
                     </Text>
                 </Flex>
                 <Text>{m.main_index}</Text>
-              </>:
-              <Flex
-                justifyContent={'space-between'}
-                px={4}
-                w={'full'}
-                alignItems={'center'}
-                onClick={() => window.open(m?._source?.url)}
-              >
-
-                  <Text
-                    fontSize={20}
-                    _groupHover={{
-                      color: 'cyan.700'
-                    }}
-                  >{m?._index}</Text>
-
-                  {m?._source?.doctype === 'pdf' || m?._source?.doctype === 'doc'?
-                  <FaFilePdf size={20}/>:""}
-
-                  {m?._source?.doctype === 'img'?
-                  <FaFileImage size={20}/>:""}
-
               </Flex>
-              } 
-
             </Flex>
           )
 
         })}
+
+        
+
+        {mainData['image']?.length > 0?
+          <Flex
+            direction={'column'}
+            justifyContent="center"
+            alignItems={'center'}
+            w={'full'}
+            gap={3}
+          >
+            <Text
+              fontSize={20}
+              fontWeight={500}
+            >IMAGES</Text>
+            <Flex
+              gap={5}
+              wrap={'wrap'}
+            >
+            {mainData['image']?.map(m => {
+
+              return(
+                <Flex
+                  key={m._id}
+                  _hover={{
+                    transform: "scale(1.05)"
+                  }}
+                  transition={'all 0.2s ease-in-out'}
+                  w={'90%'}
+                  rounded={'md'}
+                  px={4}
+                  py={1}
+                  role={'group'}
+                  bg={'gray.800'}
+                  alignItems={'center'}
+                  cursor={'pointer'}
+                  direction={'column'}
+                  onClick={() => window.open(m?._source?.url, '_blank')}
+                >
+                  <Text>{m?._index}</Text>
+                  <Image 
+                    w={'200px'}
+                    src={m?._source?.url}
+                  />
+                </Flex>
+              )
+            })}
+            </Flex>
+          </Flex>
+          :<></>
+        }
+
+
+        {mainData['doc']?.length > 0?
+          <Flex
+            direction={'column'}
+            justifyContent="center"
+            alignItems={'center'}
+            w={'full'}
+            gap={3}
+          >
+            <Text
+              fontSize={20}
+              fontWeight={500}
+            >DOCS</Text>
+            <Flex
+              gap={5}
+            >
+            {mainData['doc']?.map(m => {
+
+              return(
+                <Flex
+                  key={m._id}
+                  _hover={{
+                    transform: "scale(1.05)"
+                  }}
+                  px={5}
+                  py={3}
+                  transition={'all 0.2s ease-in-out'}
+                  w={'200px'}
+                  h={'200px'}
+                  rounded={'md'}
+                  role={'group'}
+                  bg={'gray.800'}
+                  alignItems={'center'}
+                  cursor={'pointer'}
+                  direction={'column'}
+                  position={'relative'}
+                  onClick={() => window.open(m?._source?.url, '_blank')}
+                >
+                  <Text
+                    position={'absolute'}
+                  >{m?._index}</Text>
+
+                    <Box
+                      top={'35%'}
+                      position={'relative'}
+                    >
+
+                    {m?._source?.doc_type === 'pdf'?
+                      <FaFilePdf size={60}/>
+                      :
+                      <FaFileWord size={60}/>
+                    }
+                    </Box>
+
+                </Flex>
+              )
+            })}
+            </Flex>
+          </Flex>
+          :<></>
+        }
+
+
+
+
+        {mainData['sound']?.length > 0?
+          <Flex
+            direction={'column'}
+            justifyContent="center"
+            alignItems={'center'}
+            w={'full'}
+            gap={3}
+          >
+            <Text
+              fontSize={20}
+              fontWeight={500}
+            >AUDIO</Text>
+            <Flex
+              gap={5}
+            >
+            {mainData['sound']?.map(m => {
+
+              return(
+                <Flex
+                  key={m._id}
+                  _hover={{
+                    transform: "scale(1.05)"
+                  }}
+                  px={5}
+                  py={3}
+                  transition={'all 0.2s ease-in-out'}
+                  w={'200px'}
+                  h={'200px'}
+                  rounded={'md'}
+                  role={'group'}
+                  bg={'gray.800'}
+                  alignItems={'center'}
+                  cursor={'pointer'}
+                  direction={'column'}
+                  position={'relative'}
+                  onClick={() => window.open(m?._source?.url, '_blank')}
+
+                >
+                  <Text
+                    position={'absolute'}
+                  >{m?._index}</Text>
+
+                    <Box
+                      top={'35%'}
+                      position={'relative'}
+                      overflow={'hidden'}
+                    >
+                      <FaFileAudio size={60}/>
+                      
+                      {/* <ReactAudioPlayer
+                        src={m?._source?.url}
+                        controls
+                        style={{
+                          background: 'transparent',
+                          color:'blue',
+                          display: 'none'
+                          
+                        }}
+                        id={'player'}
+                      /> */}
+
+                    </Box>
+
+                </Flex>
+              )
+            })}
+            </Flex>
+          </Flex>
+          :<></>
+        }
+
+
 
       </Flex>
 
@@ -316,3 +511,16 @@ const Search = () => {
   )
 }
 export default Search;
+
+
+// const styles = StyleSheet.create({
+//   page: {
+//     flexDirection: 'row',
+//     backgroundColor: '#E4E4E4'
+//   },
+//   section: {
+//     margin: 10,
+//     padding: 10,
+//     flexGrow: 1
+//   }
+// });

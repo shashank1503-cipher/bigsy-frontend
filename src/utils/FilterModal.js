@@ -21,7 +21,7 @@ function FilterModal({selectedFields, filters}) {
     const [selectFields, setSelectFields] = useState({...filters})
     const {indices} = useApp()
     const docType = [
-        'img',
+        'image',
         'pdf',
         'doc',
         'text'

@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { FiUpload } from "react-icons/fi";
 
-function ImportSql() {
+function ImportCsv() {
   const [file, setFile] = useState("");
   const [name, setName] = useState("");
   const [sending, setSending] = useState(0);
   const toast = useToast();
-  let fileTypes = ["sql","sqlite3"];
+  let fileTypes = ["csv"];
   const handleChange = (file) => {
     setFile(file);
   };
@@ -34,7 +34,7 @@ function ImportSql() {
             toast({
               status: "error",
               duration: 4000,
-              title: "error in SQL dump",
+              title: "error in CSV",
               isClosable: true
             }),
           0
@@ -89,7 +89,7 @@ function ImportSql() {
 
     console.log(formdata);
 
-    const res = await fetch("http://127.0.0.1:8000/add_data/sqltoindex", {
+    const res = await fetch("http://127.0.0.1:8000/add_data/csvtoindex", {
       method: "POST",
       body: formdata,
     });
@@ -114,8 +114,8 @@ function ImportSql() {
   return (
     <Flex direction={"column"} textAlign={"center"} p={6}>
       <Flex direction={"column"} p={6} justifyContent={"space-between"} gap={5}>
-        <Heading fontSize={"5xl"}>Import SQL</Heading>
-        <Text>Drop Your SQL Dumps Here to Add it to the Database</Text>
+        <Heading fontSize={"5xl"}>Import CSV</Heading>
+        <Text>Drop Your CSV Here to Add it to the Database</Text>
       </Flex>
       <Flex direction={"column"} p={12} margin={"auto"} gap={5}>
         <Input
@@ -170,4 +170,4 @@ function ImportSql() {
   );
 }
 
-export default ImportSql;
+export default ImportCsv;
