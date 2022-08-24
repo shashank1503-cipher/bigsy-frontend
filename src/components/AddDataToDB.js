@@ -1,4 +1,7 @@
 import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
   Button,
   Flex,
   Heading,
@@ -12,6 +15,7 @@ import React, { useContext, useState } from "react";
 import KeyValue from "./KeyValue";
 import { FiPlus, FiDelete, FiCheckCircle } from "react-icons/fi";
 import AddDataContext from "../context/AddDataContext";
+import { Link } from "react-router-dom";
 const AddDataToDB = () => {
   let { key, value, setKey, setValue } = useContext(AddDataContext);
   const [countFields, setCountFields] = useState(1);
@@ -108,113 +112,128 @@ const AddDataToDB = () => {
   };
 
   return (
-    <Flex direction={"column"} gap={10}>
-      <Flex
-        direction={"column"}
-        justifyContent={"center"}
-        textAlign={"center"}
-        gap={5}
-        p={6}
-      >
-        <Heading>Add Data To DB</Heading>
-      </Flex>
-      <Flex
-        boxShadow={"2xl"}
-        rounded={"md"}
-        overflow={"hidden"}
-        bg={useColorModeValue("white", "gray.800")}
-        p={6}
-        flexDirection={"column"}
-        justifyContent={"center"}
-        textAlign={"center"}
-        gap={5}
-        w={"75%"}
-        margin={"auto"}
-      >
-        <Text fontWeight={"bold"}>Collection Name</Text>
-        <Input
-          type={"text"}
-          placeholder="Enter Collection Name You Want to Add Data to"
-          value={name}
-          onChange={(e) => {
-            setName(e.target.value);
-          }}
-          required
-        />
-      </Flex>
-      <Flex
-        boxShadow={"2xl"}
-        rounded={"md"}
-        overflow={"hidden"}
-        bg={useColorModeValue("white", "gray.800")}
-        p={6}
-        justifyContent={"center"}
-        textAlign={"center"}
-        gap={5}
-        w={"75%"}
-        margin={"auto"}
-        flexDirection={"column"}
-      >
-        <Text fontWeight={"bold"}>Data</Text>
+    <>
+      <Breadcrumb>
+        <BreadcrumbItem>
+          <Link to={"/admin"}>
+            <BreadcrumbLink>Dashboard</BreadcrumbLink>
+          </Link>
+        </BreadcrumbItem>
 
-        {currentData.map((x, i) => (
-          <Flex justifyContent={"space-between"} gap={5}>
-            <Text
-              boxShadow={"2xl"}
-              rounded={"md"}
-              overflow={"hidden"}
-              bg={"gray.700"}
-              p={3}
-              justifyContent={"center"}
-              textAlign={"center"}
-              w={"full"}
-            >
-              {x.key}
-            </Text>
-            <Text
-              boxShadow={"2xl"}
-              rounded={"md"}
-              overflow={"hidden"}
-              bg={"gray.700"}
-              p={3}
-              justifyContent={"center"}
-              textAlign={"center"}
-              w={"full"}
-            >
-              {x.value}
-            </Text>
-            <IconButton
-              icon={<FiDelete />}
-              onClick={() => {
-                deleteField(i);
-              }}
-              colorScheme={"red"}
-            />
-          </Flex>
-        ))}
-        <KeyValue />
-        <Flex justifyContent={"flex-end"}>
-          <Button
-            onClick={addField}
-            leftIcon={<FiPlus />}
-            disabled={key === "" || value === ""}
-            colorScheme={"green"}
-          >
-            Add Field
-          </Button>
+        <BreadcrumbItem>
+          <Link to={"/add"}>
+            <BreadcrumbLink>Add</BreadcrumbLink>
+          </Link>
+        </BreadcrumbItem>
+      </Breadcrumb>
+      <Flex direction={"column"} gap={10}>
+        <Flex
+          direction={"column"}
+          justifyContent={"center"}
+          textAlign={"center"}
+          gap={5}
+          p={6}
+        >
+          <Heading>Add Data To DB</Heading>
         </Flex>
+        <Flex
+          boxShadow={"2xl"}
+          rounded={"md"}
+          overflow={"hidden"}
+          bg={useColorModeValue("white", "gray.800")}
+          p={6}
+          flexDirection={"column"}
+          justifyContent={"center"}
+          textAlign={"center"}
+          gap={5}
+          w={"75%"}
+          margin={"auto"}
+        >
+          <Text fontWeight={"bold"}>Collection Name</Text>
+          <Input
+            type={"text"}
+            placeholder="Enter Collection Name You Want to Add Data to"
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+            required
+          />
+        </Flex>
+        <Flex
+          boxShadow={"2xl"}
+          rounded={"md"}
+          overflow={"hidden"}
+          bg={useColorModeValue("white", "gray.800")}
+          p={6}
+          justifyContent={"center"}
+          textAlign={"center"}
+          gap={5}
+          w={"75%"}
+          margin={"auto"}
+          flexDirection={"column"}
+        >
+          <Text fontWeight={"bold"}>Data</Text>
+
+          {currentData.map((x, i) => (
+            <Flex justifyContent={"space-between"} gap={5}>
+              <Text
+                boxShadow={"2xl"}
+                rounded={"md"}
+                overflow={"hidden"}
+                bg={"gray.700"}
+                p={3}
+                justifyContent={"center"}
+                textAlign={"center"}
+                w={"full"}
+              >
+                {x.key}
+              </Text>
+              <Text
+                boxShadow={"2xl"}
+                rounded={"md"}
+                overflow={"hidden"}
+                bg={"gray.700"}
+                p={3}
+                justifyContent={"center"}
+                textAlign={"center"}
+                w={"full"}
+              >
+                {x.value}
+              </Text>
+              <IconButton
+                icon={<FiDelete />}
+                onClick={() => {
+                  deleteField(i);
+                }}
+                colorScheme={"red"}
+              />
+            </Flex>
+          ))}
+          <KeyValue />
+          <Flex justifyContent={"flex-end"}>
+            <Button
+              onClick={addField}
+              leftIcon={<FiPlus />}
+              disabled={key === "" || value === ""}
+              colorScheme={"green"}
+            >
+              Add Field
+            </Button>
+          </Flex>
+        </Flex>
+        <Button
+          colorScheme={"blue"}
+          leftIcon={<FiCheckCircle />}
+          margin={"auto"}
+          w={"50%"}
+          onClick={addData}
+          isLoading={sending}
+        >
+          Add Data
+        </Button>
       </Flex>
-      <Button
-        colorScheme={"blue"}
-        leftIcon={<FiCheckCircle />}
-        margin={"auto"}
-        w={"50%"}
-        onClick={addData}
-        isLoading={sending}
-      >
-        Add Data
-      </Button>
-    </Flex>
+    </>
   );
 };
 
