@@ -10,6 +10,7 @@ import Indexes from "./components/Indexes";
 import Index from "./components/Index";
 import Stats from "./components/Stats";
 import ImportJSON from "./components/ImportJSON";
+import ImportCsv from './components/ImportCsv';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Header>
         <Routes>
           <Route path="/importsql" element={<ImportSql />} />
+          <Route path='/importcsv' element={<ImportCsv/>}/>
           <Route path="/importjson" element={<ImportJSON />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/add" element={<AddDataToDB />} />

@@ -12,31 +12,40 @@ export const AppProvider = ({ children }) => {
   const [indices, setIndices] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const getIndices = async () => {
-    const res = await fetch('http://localhost:8000/get/indices')
-    const data = await res.json()
-    // console.log(data)
-    // let data = { data: ['Hello World'] };
-    console.log(data);
+    const getIndices = async () => {
 
-    setIndices([...data?.data]);
-  };
+        try
+        {
+            const res = await fetch('http://localhost:8000/get/indices')
+            const data = await res.json()
+            // console.log(data)
+            console.log(data)
 
-  useEffect(() => {
-    const func = async () => {
-      await getIndices();
-      setLoading(false);
-    };
+            setIndices([...data?.data])
+        }
+        catch{
+            
+        }
+        
 
-    func();
-  }, []);
+    }
 
-  const memo = useMemo(
-    () => ({
-      indices,
-    }),
-    [indices]
-  );
+    useEffect(() => {
+
+        const func = async () => {
+
+            await getIndices()
+            setLoading(false)
+
+        }
+
+        func()
+
+    }, [])
+
+    const memo = useMemo(() => ({
+        indices,
+    }), [indices])
 
   return (
     <AppContext.Provider value={memo}>

@@ -7,6 +7,7 @@ import { HiOutlineTable, HiOutlineCode } from "react-icons/hi";
 import { FiDatabase, FiUpload } from "react-icons/fi";
 import { IoIosStats } from "react-icons/io";
 import { BiCodeCurly } from "react-icons/bi";
+import {FaFileCsv} from 'react-icons/fa'
 const Admin = () => {
   return (
     <Flex direction={"column"} py={6}>
@@ -31,12 +32,21 @@ const Admin = () => {
           icon={FiDatabase}
           url={"/importsql"}
         />
+
+        <AdminCard
+          title={"Import CSV"}
+          icon={FaFileCsv}
+          url={"/importcsv"}
+        />
+
         <AdminCard
           title={"Import JSON"}
           icon={BiCodeCurly}
           url={"/importjson"}
         />
         <AdminCard title={"Get Stats"} icon={IoIosStats} url={"/stats"} />
+
+
       </Flex>
     </Flex>
   );
