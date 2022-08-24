@@ -3,9 +3,10 @@ import React from "react";
 import AdminCard from "./AdminCard";
 
 import { FiPlus } from "react-icons/fi";
-import { HiOutlineTable } from "react-icons/hi";
+import { HiOutlineTable, HiOutlineCode } from "react-icons/hi";
 import { FiDatabase, FiUpload } from "react-icons/fi";
 import { IoIosStats } from "react-icons/io";
+import { BiCodeCurly } from "react-icons/bi";
 import {FaFileCsv} from 'react-icons/fa'
 const Admin = () => {
   return (
@@ -38,7 +39,12 @@ const Admin = () => {
           url={"/importcsv"}
         />
 
-        <AdminCard title={"Get Stats"} icon={IoIosStats} />
+        <AdminCard
+          title={"Import JSON"}
+          icon={BiCodeCurly}
+          url={"/importjson"}
+        />
+        <AdminCard title={"Get Stats"} icon={IoIosStats} url={"/stats"} />
 
 
       </Flex>

@@ -1,12 +1,16 @@
-import React, {createContext, useEffect, useState, useContext, useMemo} from 'react';
+import React, {
+  createContext,
+  useEffect,
+  useState,
+  useContext,
+  useMemo,
+} from "react";
 
-const AppContext = createContext({})
+const AppContext = createContext({});
 
-export const AppProvider = ({children}) => {
-
-    const [indices, setIndices] = useState([])
-    const [loading, setLoading] = useState(true)
-
+export const AppProvider = ({ children }) => {
+  const [indices, setIndices] = useState([]);
+  const [loading, setLoading] = useState(true);
 
     const getIndices = async () => {
 
@@ -43,11 +47,13 @@ export const AppProvider = ({children}) => {
         indices,
     }), [indices])
 
-    return <AppContext.Provider value={memo}>
-        {!loading && children}
+  return (
+    <AppContext.Provider value={memo}>
+      {!loading && children}
     </AppContext.Provider>
-}
+  );
+};
 
-export default function useApp(){
-    return useContext(AppContext)
+export default function useApp() {
+  return useContext(AppContext);
 }
