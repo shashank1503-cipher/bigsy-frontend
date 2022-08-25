@@ -24,15 +24,8 @@ import {
 } from "@chakra-ui/react";
 import {
   FiHome,
-  FiTrendingUp,
-  FiCompass,
-  FiStar,
-  FiSettings,
   FiMenu,
-  FiBell,
-  FiChevronDown,
-  FiPlus,
-  FiUser,
+  FiSearch,
 } from "react-icons/fi";
 import { AiOutlineDashboard } from "react-icons/ai";
 
@@ -40,6 +33,7 @@ import { useNavigate } from "react-router-dom";
 
 const LinkItems = [
   { name: "Home", icon: FiHome, link: "/" },
+  { name: "Search", icon: FiSearch, link: "/search" },
   { name: "Dashboard", icon: AiOutlineDashboard, link: "/admin" },
 ];
 
