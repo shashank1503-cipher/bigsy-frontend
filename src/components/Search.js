@@ -1,16 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from "react";
 import {
   Input,
-  Box, 
-  Flex, 
+  Box,
+  Flex,
   Button,
   Text,
   useToast,
   Image,
   position,
-
-} from '@chakra-ui/react'
-
+  Collapse,
+} from "@chakra-ui/react";
 
 import {
   FaSearch,
@@ -18,21 +17,23 @@ import {
   FaFilePdf,
   FaFileImage,
   FaFileAudio,
-  FaFileWord
-} from 'react-icons/fa'
-import FilterModal from '../utils/FilterModal'
+  FaFileWord,
+} from "react-icons/fa";
+import FilterModal from "../utils/FilterModal";
+import SearchHeading from "./SearchHeading";
+import Hero from "./Hero";
+import useApp from "../context/AppContext";
 
 const Search = () => {
-
-  const [search, setSearch] = useState("")
-  const [rawData,setRawData] = useState(null)
+  const [search, setSearch] = useState("");
+  const [rawData, setRawData] = useState(null);
   const [mainData, setMainData] = useState({
     text: [],
     image: [],
     doc: [],
-    sound: []
-  })
-  const [totalPages, setTotalPages] = useState([])
+    sound: [],
+  });
+  const [totalPages, setTotalPages] = useState([]);
   const [filters, setFilters] = useState({
     index: [],
     doc: [],
@@ -45,8 +46,10 @@ const Search = () => {
     window.open(`http://localhost:3000/doc/${index}/${id}`)
   }
 
-  const [page,  setPage] = useState(1)
-  const toast = useToast()
+  const {statData} = useApp()
+  const [page, setPage] = useState(1);
+  const toast = useToast();
+  const [isResults, setIsResults] = useState(false);
 
   useEffect(() => {
     console.log(filters)
@@ -105,7 +108,6 @@ const Search = () => {
 
     if(rawData)
     {
-      console.log(rawData)
         let data = {
           text: [],
           image: [],
@@ -171,12 +173,15 @@ const Search = () => {
   }
 
   useEffect(() => {
-
-    fetchData()
-
-  }, [page])
+    fetchData();
+  }, [page]);
+  useEffect(() => {
+    setIsResults(rawData ? true : false);
+  }, [rawData]);
 
   return (
+    <>
+    <SearchHeading isVisible={isResults}/>
     <Flex
       direction={'column'}
       justifyContent={'center'}
@@ -207,11 +212,14 @@ const Search = () => {
 
       {rawData?
         <Flex
-          justifyContent={'center'}
-          direction={'column'}
+          justifyContent={'space-between'}
+          direction={'row'}
+          px={5}
+          alignItems={'center'}
         >
-        <Text textAlign={'center'}>Total Docs : {rawData?.meta?.total}</Text>
-        <Text textAlign={"center"}>Query Time : {queryTime} ms</Text>
+         
+          <Text textAlign={'center'}>Matched {rawData?.meta?.total} out of {statData?.total_documents} Documents</Text>
+          <Text textAlign={"center"} bg={'cyan.700'} p={2} rounded={"md"}>{parseFloat(queryTime)/1000} seconds</Text>
         </Flex>
         :<></>
       }
@@ -219,7 +227,7 @@ const Search = () => {
       {rawData && totalPages.length > 1?
       <Flex
         w={'100%'}
-        justifyContent='space-evenly'
+        justifyContent='center'
         alignItems={'center'}
         position={'relative'}
         gap={2}
@@ -504,7 +512,6 @@ const Search = () => {
 
 
 
-
         {mainData['sound']?.length > 0?
           <Flex
             direction={'column'}
@@ -553,19 +560,7 @@ const Search = () => {
                       overflow={'hidden'}
                     >
                       <FaFileAudio size={60}/>
-                      
-                      {/* <ReactAudioPlayer
-                        src={m?._source?.url}
-                        controls
-                        style={{
-                          background: 'transparent',
-                          color:'blue',
-                          display: 'none'
-                          
-                        }}
-                        id={'player'}
-                      /> */}
-
+                    
                     </Box>
 
                 </Flex>
@@ -581,6 +576,7 @@ const Search = () => {
       </Flex>
 
    </Flex>
+   </>
   )
 }
 export default Search;

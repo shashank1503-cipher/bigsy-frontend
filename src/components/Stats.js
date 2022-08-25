@@ -21,24 +21,13 @@ import useApp from "../context/AppContext";
 
 const Stats = () => {
   let { indices } = useApp();
-  const [data, setData] = useState({});
-  const [loading, setLoading] = useState(true);
+  // const [statData, setstatData] = useState({});
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  let fetchData = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch("http://localhost:8000/get/stats");
-      const data = await res.json();
-      setData(data);
-      setLoading(false);
-    } catch (error) {
-      setError(error.message);
-      setLoading(false);
-    }
-  };
-  useEffect(() => {
-    fetchData();
-  }, []);
+
+  const {statData, fetchData} = useApp()
+  
+
   let bg = useColorModeValue("white", "gray.800");
 
   return (
@@ -49,10 +38,10 @@ const Stats = () => {
           <Spinner />
         </Flex>
       ) : error ? (
-        <Flex h={"65vh"}>
+        <Flex h={"65vh"} align={'center'}>
           <Alert status="error">
             <AlertIcon />
-            <AlertTitle>Error Fetching Data</AlertTitle>
+            <AlertTitle>Error Fetching statData</AlertTitle>
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         </Flex>
@@ -93,7 +82,7 @@ const Stats = () => {
               <Heading color={""} fontSize={"2xl"}>
                 Total Search Indexes Created
               </Heading>
-              <Heading>{data?.data?.total_indexes}</Heading>
+              <Heading>{statData?.total_indexes}</Heading>
             </Stack>
           </Flex>
           <Box
@@ -120,8 +109,8 @@ const Stats = () => {
               </Heading>
               <CircularProgress
                 value={
-                  data?.data?.memory_usage?.available_in_bytes /
-                  data?.data?.memory_usage?.total_in_bytes
+                  statData?.memory_usage?.available_in_bytes /
+                  statData?.memory_usage?.total_in_bytes
                 }
                 color="green.400"
                 size={"l"}
@@ -129,9 +118,9 @@ const Stats = () => {
                 minH={250}
               >
                 <CircularProgressLabel fontSize={"xl"}>
-                  {data?.data?.memory_usage_pretty?.available +
+                  {statData?.memory_usage_pretty?.available +
                     "/" +
-                    data?.data?.memory_usage_pretty?.total}
+                    statData?.memory_usage_pretty?.total}
                 </CircularProgressLabel>
               </CircularProgress>
             </Stack>
@@ -160,7 +149,7 @@ const Stats = () => {
               </Heading>
             </Stack>
             <Flex justifyContent={"center"} p={8} direction={"column"} gap={5}>
-              {data?.data?.cluster_health?.status === "green" ? (
+              {statData?.cluster_health?.status === "green" ? (
                 <Flex gap={2}>
                   <Text color={"green.400"} fontSize={"3xl"}>
                     <FiCheckCircle color={"green.400"} />
@@ -176,16 +165,16 @@ const Stats = () => {
                 </Flex>
               )}
               <Text fontSize={"xl"}>
-                {data?.data?.cluster_health?.number_of_nodes} nodes
+                {statData?.cluster_health?.number_of_nodes} nodes
               </Text>
               <Text fontSize={"xl"}>
-                {data?.data?.cluster_health?.active_shards} Active Shards{" "}
+                {statData?.cluster_health?.active_shards} Active Shards{" "}
               </Text>
               <Text fontSize={"xl"}>
-                {data?.data?.cluster_health?.unassigned_shards} Unassigned Shards{" "}
+                {statData?.cluster_health?.unassigned_shards} Unassigned Shards{" "}
               </Text>
               <Text fontSize={"xl"}>
-                {data?.data?.cluster_health?.number_of_pending_tasks} Pending Tasks{" "}
+                {statData?.cluster_health?.number_of_pending_tasks} Pending Tasks{" "}
               </Text>
             </Flex>
           </Box>
@@ -211,12 +200,12 @@ const Stats = () => {
               <Heading color={""} fontSize={"2xl"}>
                 Total Documents
               </Heading>
-              <Heading>{data?.data?.total_documents}</Heading>
+              <Heading>{statData?.total_documents}</Heading>
             </Stack>
             <Flex wrap={"wrap"} gap={5} justifyContent={"center"} p={8}>
               <CircularProgress
                 value={
-                  (data?.data?.total_audio / data?.data?.total_documents) * 100
+                  (statData?.total_audio / statData?.total_documents) * 100
                 }
                 color="blue.400"
                 size={"20"}
@@ -224,25 +213,25 @@ const Stats = () => {
                 <CircularProgressLabel fontSize={"md"}>
                   <Flex direction={"column"} align={"center"}>
                     <FiMusic />
-                    {data?.data?.total_audio}
+                    {statData?.total_audio}
                   </Flex>
                 </CircularProgressLabel>
               </CircularProgress>
               <CircularProgress
-                value={(data?.data?.total_docx / data?.data?.total_documents) * 100}
+                value={(statData?.total_docx / statData?.total_documents) * 100}
                 color="blue.400"
                 size={"20"}
               >
                 <CircularProgressLabel fontSize={"md"}>
                   <Flex direction={"column"} align={"center"}>
                     <AiFillFileWord />
-                    {data?.data?.total_docx}
+                    {statData?.total_docx}
                   </Flex>
                 </CircularProgressLabel>
               </CircularProgress>
               <CircularProgress
                 value={
-                  (data?.data?.total_images / data?.data?.total_documents) * 100
+                  (statData?.total_images / statData?.total_documents) * 100
                 }
                 color="blue.400"
                 size={"20"}
@@ -250,19 +239,19 @@ const Stats = () => {
                 <CircularProgressLabel fontSize={"md"}>
                   <Flex direction={"column"} align={"center"}>
                     <FiImage />
-                    {data?.data?.total_images}
+                    {statData?.total_images}
                   </Flex>
                 </CircularProgressLabel>
               </CircularProgress>
               <CircularProgress
-                value={(data?.data?.total_text / data?.data?.total_documents) * 100}
+                value={(statData?.total_text / statData?.total_documents) * 100}
                 color="blue.400"
                 size={"20"}
               >
                 <CircularProgressLabel fontSize={"md"}>
                   <Flex direction={"column"} align={"center"}>
                     <BiCodeCurly />
-                    {data?.data?.total_text}
+                    {statData?.total_text}
                   </Flex>
                 </CircularProgressLabel>
               </CircularProgress>

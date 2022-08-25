@@ -12,6 +12,21 @@ export const AppProvider = ({ children }) => {
   const [indices, setIndices] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [statData, setStatData] = useState({})
+
+  let fetchData = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("http://localhost:8000/get/stats");
+      const data = await res.json();
+      console.log(data)
+      setStatData({...data.data});
+    } catch (error) {
+      
+    }
+  };
+
+
     const getIndices = async () => {
 
         try
@@ -35,6 +50,7 @@ export const AppProvider = ({ children }) => {
         const func = async () => {
 
             await getIndices()
+            await fetchData()
             setLoading(false)
 
         }
@@ -45,8 +61,10 @@ export const AppProvider = ({ children }) => {
 
     const memo = useMemo(() => ({
         indices,
-        getIndices
-    }), [indices])
+        getIndices,
+        fetchData,
+        statData
+    }), [indices, statData])
 
   return (
     <AppContext.Provider value={memo}>

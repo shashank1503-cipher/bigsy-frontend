@@ -178,6 +178,11 @@ const Upload = () => {
     uploadFile();
   }, [file]);
 
+  useEffect(() => {
+    setFile(null);
+  }, [type]);
+
+
   return (
     <>
       <Breadcrumb>

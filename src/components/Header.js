@@ -37,7 +37,6 @@ import {
 import { AiOutlineDashboard } from "react-icons/ai";
 
 import { useNavigate } from "react-router-dom";
-import { ColorModeSwitcher } from "../ColorModeSwitcher";
 
 const LinkItems = [
   { name: "Home", icon: FiHome, link: "/" },
@@ -47,7 +46,7 @@ const LinkItems = [
 export default function SidebarWithHeader({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [width] = useMediaQuery(`(max-width: 768px)`)
+  const [width] = useMediaQuery("(max-width: 768px)");
 
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
