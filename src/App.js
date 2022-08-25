@@ -11,8 +11,12 @@ import Index from "./components/Index";
 import Stats from "./components/Stats";
 import ImportJSON from "./components/ImportJSON";
 import ImportCsv from './components/ImportCsv';
+import Doc from "./components/Doc";
 
 function App() {
+
+  localStorage.setItem('chakra-ui-color-mode', 'dark')
+
   return (
     <BrowserRouter>
       <Header>
@@ -27,6 +31,7 @@ function App() {
           <Route path="/upload" element={<Upload />} />
           <Route path="/stats" element={<Stats />} />
           <Route path="/" element={<Search />} />
+          <Route path="/doc/:index/:id" element={<Doc/>} />
         </Routes>
       </Header>
     </BrowserRouter>

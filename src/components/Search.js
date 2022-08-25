@@ -39,6 +39,10 @@ const Search = () => {
     doc: []
   })
 
+  const naviToDoc = (index,id) => {
+    window.open(`http://localhost:3000/doc/${index}/${id}`)
+  }
+
   const [page,  setPage] = useState(1)
   const toast = useToast()
 
@@ -57,15 +61,14 @@ const Search = () => {
       }
 
       console.log('page', page)
-
+      
       if(search.length === 0)
-        return;
+        return
       const url = `http://127.0.0.1:8000/search?q=${search}&page=${page}&filters=${JSON.stringify(filters)}`
-      console.log(url)
+
       const res = await fetch(url)
       const json = await res.json()
 
-      console.log(json)
       
       // console.log(json)
       if(dataType === 1)
@@ -192,7 +195,8 @@ const Search = () => {
       {rawData?
         <Text textAlign={'center'}>Total Docs : {rawData?.meta?.total}</Text>:<></>
       }
-      {rawData?
+
+      {rawData && totalPages.length > 1?
       <Flex
         w={'100%'}
         justifyContent='space-evenly'
@@ -200,51 +204,52 @@ const Search = () => {
         position={'relative'}
         // bg={'red.200'}
       >
-        <Flex
-          gap={1}
-          // bg={'blue.300'}
-        >
-          {totalPages?.map(p => {
-
-            console.log("PAGE: ", p)
-            if(p <= 2);
-            else if(p >= totalPages?.length-2);
-            else if(p < page)
-              return <></>
-
-            else if(p > page+5)
-              return <></>
-
-
-            return (
-              <Button key={p}
-                onClick={() => setPage(p)}
-                bg={p === page?'cyan.700':""}
-
-              >{p}</Button>
-              )
-            })}
-
-          </Flex>
-
           <Flex
-            gap={4}
-            position="relative"
-            // bg={'yellow.600'}
+            gap={1}
+            // bg={'blue.300'}
           >
-            <Input          
-              id={'pageinput'}
-              placeholder="Page"
-              type={'number'}
-              maxW={'30%'}
-              onKeyDown={e => e.key === 'Enter'?searchPage(e.target.value):null}
-            />
-            <Button
-              onClick={() => searchPage(document.getElementById('pageinput').value || 1)}
+            {totalPages?.map(p => {
+
+              console.log("PAGE: ", p)
+              if(p <= 2);
+              else if(p >= totalPages?.length-2);
+              else if(p < page-2)
+                return <></>
+
+              else if(p > page+3)
+                return <></>
+
+
+              return (
+                <Button key={p}
+                  onClick={() => setPage(p)}
+                  bg={p === page?'cyan.700':""}
+
+                >{p}</Button>
+                )
+              })}
+
+            </Flex>
+
+            <Flex
+              gap={4}
+              position="relative"
+              // bg={'yellow.600'}
             >
-              <FaArrowRight/>
-            </Button>
-          </Flex>
+              <Input          
+                id={'pageinput'}
+                placeholder="Page"
+                type={'number'}
+                maxW={'30%'}
+                onKeyDown={e => e.key === 'Enter'?searchPage(e.target.value):null}
+              />
+              <Button
+                onClick={() => searchPage(document.getElementById('pageinput').value || 1)}
+              >
+                <FaArrowRight/>
+              </Button>
+            </Flex>
+          
 
       </Flex>:null}
 
@@ -273,6 +278,7 @@ const Search = () => {
               w={'full'}
               alignItems={'center'}
               justifyContent={'center'}
+              onClick={() => naviToDoc(m?._index, m._id)}
             >
 
               <Flex 
@@ -356,7 +362,7 @@ const Search = () => {
                   alignItems={'center'}
                   cursor={'pointer'}
                   direction={'column'}
-                  onClick={() => window.open(m?._source?.url, '_blank')}
+                  onClick={() => naviToDoc(m?._index, m?._id)}
                 >
                   <Text>{m?._index}</Text>
                   <Image 
