@@ -226,8 +226,9 @@ function Index() {
 
 
                         <Box>
-                            <Text mb={5} fontSize={20} fontWeight={500}>All Features <Text color={'gray.600'} fontSize={16}>You can select features to search through those </Text></Text>    
-
+                            <Text mb={5} fontSize={20} fontWeight={500}>All Features 
+                            {/* <Text color={'gray.600'} fontSize={16}>You can select features to search through those </Text></Text>     */}
+                            </Text>
                             <Flex
                                 direction={'row'}
                                 wrap={'wrap'}
@@ -237,23 +238,25 @@ function Index() {
                                 {doc && Object.keys(doc?.data?.mappings)?.length>0?Object.keys(doc?.data?.mappings?.properties)?.map(k => {
                                     return <Text
                                         p={2}
-                                        bg={selected?.includes(k)?'cyan.600':'rgba(0,0,0,0.2)'}
-                                        cursor={'pointer'}
+                                        // bg={selected?.includes(k)?'cyan.600':'rgba(0,0,0,0.2)'}
+                                        // cursor={'pointer'}
                                         transition={'all 0.25s ease'}
-                                        _hover={{
-                                            bg:'cyan.600'
-                                        }}
+                                        // _hover={{
+                                        //     bg:'cyan.600'
+                                        // }}
 
-                                        onClick={() => {
-                                            let sell = [...selected]
-                                            if(selected?.includes(k))
-                                                sell = sell?.filter(s => s!==k)
-                                            else
-                                                sell.push(k)
+                                        // onClick={() => {
+                                        //     let sell = [...selected]
+                                        //     if(selected?.includes(k))
+                                        //         sell = sell?.filter(s => s!==k)
+                                        //     else
+                                        //         sell.push(k)
 
-                                            setSelected([...sell])
-                                        }}
-
+                                        //     setSelected([...sell])
+                                        // }}
+                                        bg={'gray.800'}
+                                        minW={'50px'}
+                                        textAlign={'center'}
                                         rounded={'md'}
                                     >{k}</Text>
                                     

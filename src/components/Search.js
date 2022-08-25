@@ -38,6 +38,9 @@ const Search = () => {
     doc: [],
     fuzzy: false
   })
+
+  const [queryTime, setQueryTime] = useState(0)
+
   const naviToDoc = (index,id) => {
     window.open(`http://localhost:3000/doc/${index}/${id}`)
   }
@@ -69,10 +72,15 @@ const Search = () => {
       console.log(toSearch)
       const url = `http://127.0.0.1:8000/search?q=${toSearch}&page=${page}&filters=${JSON.stringify(filters)}`
 
+      let start = new Date()
+
+
       const res = await fetch(url)
       const json = await res.json()
 
-      
+
+      setQueryTime(new Date() - start)
+
       // console.log(json)
       if(dataType === 1)
       {
@@ -97,6 +105,7 @@ const Search = () => {
 
     if(rawData)
     {
+      console.log(rawData)
         let data = {
           text: [],
           image: [],
@@ -115,24 +124,28 @@ const Search = () => {
 
           let main_index = null;
           let match_string = ""
+          const freq = 0;
           for(let i = 0; i<Object.keys(m._source).length; i++)
           {
             let arr2 = m?._source[Object.keys(m._source)[i]]?.toString().toLowerCase()
             
             const inter = arr1.filter(x => arr2?.includes(x) === true)
-          
+            
             if(inter.length > 0)
             {
               main_index = Object.keys(m._source)[i]
+              
+              // for(let word = 0; word < )
+
               match_string = inter[0]
               break;
             }
           }
 
           if(m?._source?.doc_type === 'pdf')
-            data['doc'].push({...m, main_index, match_string:match_string})
+            data['doc']?.push({...m, main_index, match_string:match_string})
           else 
-            data[m?._source?.doc_type].push({...m, main_index, match_string:match_string})
+            data[m?._source?.doc_type]?.push({...m, main_index, match_string:match_string})
 
         })
 
@@ -196,10 +209,13 @@ const Search = () => {
       </Flex>
 
       {rawData?
-        <>
+        <Flex
+          justifyContent={'center'}
+          direction={'column'}
+        >
         <Text textAlign={'center'}>Total Docs : {rawData?.meta?.total}</Text>
-        {/* <Text textAlign={"center"}>Query Time : {queryTime} ms</Text> */}
-        </>
+        <Text textAlign={"center"}>Query Time : {queryTime} ms</Text>
+        </Flex>
         :<></>
       }
 
@@ -279,6 +295,20 @@ const Search = () => {
               match = m?._source[m?.main_index]?.toLowerCase().match(m?.match_string)
               match = match?.index
           }
+
+          const wordlist = m?._source[m?.main_index]?.toLowerCase()?.split(/[ '",.*?<>#!^%@()+=|{}:]+/)
+            
+          console.log(wordlist)
+          let freq = 0;
+          wordlist.forEach((w) => {
+            
+            if(m?.match_string === w)
+            {
+              freq+=1;
+            }
+
+          })
+
           // console.log(m?.main_index)
           // console.log(match, m?._source[m?.main_index]?.length)
 
@@ -331,7 +361,7 @@ const Search = () => {
                     
                     </>
                 </Flex>
-                <Text>{m?.main_index}</Text>
+                <Text>{freq}</Text>
               </Flex>
             </Flex>
           )
@@ -407,6 +437,19 @@ const Search = () => {
             >
             {mainData['doc']?.map(m => {
 
+              const wordlist = m?._source[m?.main_index]?.toLowerCase()?.split(/[ '",.*?<>#!^%@()+=|{}:]+/)
+              console.log(m)
+              console.log(wordlist)
+              let freq = 0;
+              wordlist.forEach((w) => {
+                
+                if(m?.match_string === w)
+                {
+                  freq+=1;
+                }
+
+              })
+
               return(
                 <Flex
                   key={m._id}
@@ -442,6 +485,12 @@ const Search = () => {
                       <FaFileWord size={60}/>
                     }
                     </Box>
+
+                  <Text
+                    position={'absolute'}
+                    bottom={2}
+                    fontWeight={500}
+                  >{freq} Match{freq>1?'es':""}</Text>
 
                 </Flex>
               )
@@ -489,7 +538,7 @@ const Search = () => {
                   cursor={'pointer'}
                   direction={'column'}
                   position={'relative'}
-                  onClick={() => window.open(m?._source?.url, '_blank')}
+                  onClick={() => naviToDoc(m?._index, m?._id)}
 
                 >
                   <Text

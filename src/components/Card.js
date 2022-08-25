@@ -34,6 +34,7 @@ const Card = (props) => {
         minW={"150px"}
         _hover={{ transform: "scale(1.05)" }}
         cursor={"pointer"}
+        bg={'gray.800'}
       >
         <Stack
           textAlign={"center"}

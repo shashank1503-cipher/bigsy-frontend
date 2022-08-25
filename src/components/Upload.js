@@ -1,4 +1,5 @@
 import {
+  Box,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
@@ -210,12 +211,17 @@ const Upload = () => {
             it.
           </Text>
         </Flex>
-        <Flex wrap={"wrap"} p={8} margin={"auto"} gap={3}>
-          <Card title={"Upload Image"} icon={FiImage} url={"image"} />
+        <Flex wrap={"wrap"} p={4} margin={"auto"} gap={3}
+        
+          justifyContent={'center'}
+        >
+
+          <Card title={"Upload Image"} icon={FiImage} url={"image"}/>
           <Card
             title={"Upload Doc Files"}
             icon={BsFileEarmarkWordFill}
             url={"doc"}
+            
           />
           <Card title={"Upload PDF Files"} icon={BsFilePdf} url={"pdf"} />
           <Card title={"Upload Sound Files"} icon={BsSoundwave} url={"sound"} />
