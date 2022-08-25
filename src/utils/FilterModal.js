@@ -26,7 +26,8 @@ function FilterModal({selectedFields, filters}) {
         'image',
         'pdf',
         'doc',
-        'text'
+        'text',
+        'sound'
     ]
 
     const apply = () => {

@@ -134,9 +134,6 @@ const Search = () => {
             if(inter.length > 0)
             {
               main_index = Object.keys(m._source)[i]
-              
-              // for(let word = 0; word < )
-
               match_string = inter[0]
               break;
             }
@@ -295,8 +292,12 @@ const Search = () => {
               match = m?._source[m?.main_index]?.toLowerCase().match(m?.match_string)
               match = match?.index
           }
-
-          const wordlist = m?._source[m?.main_index]?.toLowerCase()?.split(/[ '",.*?<>#!^%@()+=|{}:]+/)
+          
+          let wordlist;
+          if(m?.match_string.length <= 1)
+          wordlist = m?._source[m?.main_index]?.toLowerCase()?.split("")
+          else 
+          wordlist = m?._source[m?.main_index]?.toLowerCase()?.split(/[ '",.*?<>#!^%@()+=|{}:]+/)
             
           console.log(wordlist)
           let freq = 0;
@@ -385,6 +386,7 @@ const Search = () => {
             <Flex
               gap={5}
               wrap={'wrap'}
+              justifyContent={'center'}
             >
             {mainData['image']?.map(m => {
 
@@ -395,7 +397,7 @@ const Search = () => {
                     transform: "scale(1.05)"
                   }}
                   transition={'all 0.2s ease-in-out'}
-                  w={'90%'}
+                  
                   rounded={'md'}
                   px={4}
                   py={1}

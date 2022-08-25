@@ -20,6 +20,7 @@ import {
   MenuItem,
   MenuList,
   Heading,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import {
   FiHome,
@@ -45,6 +46,9 @@ const LinkItems = [
 
 export default function SidebarWithHeader({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [width] = useMediaQuery(`(max-width: 768px)`)
+
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
       <SidebarContent
@@ -65,7 +69,8 @@ export default function SidebarWithHeader({ children }) {
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
-      <MobileNav onOpen={onOpen} />
+      {width?
+      <MobileNav onOpen={onOpen} />:""}
       <Box ml={{ base: 0, md: 60 }} p="4">
         {children}
       </Box>

@@ -71,9 +71,9 @@ function Doc() {
 
   const ImageDoc = () => {
 
-    const {metadata, text_data, labels} = doc?.source
-      const {location, coordinates, date} = metadata
-      console.log(date)
+    const {metadata, text_data, labels, objects, logos} = doc?.source
+    const {location, coordinates, date} = metadata
+      
       return (
         <Flex
           gap={4}
@@ -171,6 +171,53 @@ function Doc() {
 
               }
             </Box>
+
+            <Box
+              bg={'rgba(0,0,0,0.2)'}
+              rounded={'md'}
+              p={2}
+            >
+              <Text
+                fontSize={20}
+                fontWeight={500}
+                color={'cyan.600'}
+              >Labels</Text>
+              <Flex
+                gap={2}
+                wrap={'wrap'}
+              >
+
+                {labels.length>0?labels?.map(l => (
+                  <Text
+                    bg={'gray.800'}
+                  >{l}</Text>
+                  )):"No labels detected"}
+              </Flex>
+            </Box>
+
+            <Box
+              bg={'rgba(0,0,0,0.2)'}
+              rounded={'md'}
+              p={2}
+            >
+              <Text
+                fontSize={20}
+                fontWeight={500}
+                color={'cyan.600'}
+              >Objects</Text>
+              <Flex
+                gap={2}
+                wrap={'wrap'}
+              >
+
+                {objects?.length > 0?objects?.map(l => (
+                  <Text
+                    bg={'gray.800'}
+                  >{l}</Text>
+                  )):"No objects in this pic"}
+              </Flex>
+            </Box>
+
 
           </Flex>
 
