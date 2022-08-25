@@ -36,115 +36,126 @@ const Search = () => {
   const [totalPages, setTotalPages] = useState([]);
   const [filters, setFilters] = useState({
     index: [],
-    doc: [],
-  });
+    doc: []
+  })
 
-  const [page, setPage] = useState(1);
-  const toast = useToast();
+  const naviToDoc = (index,id) => {
+    window.open(`http://localhost:3000/doc/${index}/${id}`)
+  }
 
-  useEffect(() => {
-    console.log(filters);
-  }, [filters]);
-
-  const fetchData = async (dataType = 0) => {
-    if (dataType === 1) {
-      setMainData([]);
-      setRawData(null);
-      setPage(1);
-      setTotalPages([]);
-    }
-
-    console.log("page", page);
-
-    if (search.length === 0) return;
-    const url = `http://127.0.0.1:8000/search?q=${search}&page=${page}&filters=${JSON.stringify(
-      filters
-    )}`;
-    console.log(url);
-    let startTime = new Date();
-    setLoading(true);
-    const res = await fetch(url);
-    const json = await res.json();
-    setQueryTime(new Date() - startTime);
-    console.log(queryTime);
-
-    console.log(json);
-
-    // console.log(json)
-    if (dataType === 1) {
-      let tp;
-      if (json?.meta?.total % 10 === 0) tp = json?.meta?.total / 10;
-      else tp = json?.meta?.total / 10 + 1;
-      let arr = [];
-      for (let i = 1; i <= tp; i++) arr.push(i);
-
-      console.log(arr);
-
-      setTotalPages([...arr]);
-    }
-
-    setRawData({ ...json });
-    setLoading(false);
-  };
+  const [page,  setPage] = useState(1)
+  const toast = useToast()
 
   useEffect(() => {
-    if (rawData) {
-      let data = {
-        text: [],
-        image: [],
-        doc: [],
-        sound: [],
-      };
-      rawData?.data?.map((m) => {
-        if (search.trim().length === 0) return null;
+    console.log(filters)
+  }, [filters])
 
-        let arr1 = search.trim().split(" ");
+  const fetchData = async (dataType=0) => {
 
-        arr1 = arr1.map((a) => a.toLowerCase());
-        console.log(arr1);
+      if(dataType === 1)
+      {
+        setMainData([])
+        setRawData(null)
+        setPage(1)
+        setTotalPages([])
+      }
 
-        let main_index = null;
-        let match_string = "";
-        for (let i = 0; i < Object.keys(m._source).length; i++) {
-          let arr2 = m?._source[Object.keys(m._source)[i]]
-            ?.toString()
-            .toLowerCase();
+      console.log('page', page)
+      
+      if(search.length === 0)
+        return
+      const url = `http://127.0.0.1:8000/search?q=${search}&page=${page}&filters=${JSON.stringify(filters)}`
 
-          const inter = arr1.filter((x) => arr2?.includes(x) === true);
+      const res = await fetch(url)
+      const json = await res.json()
 
-          if (inter.length > 0) {
-            main_index = Object.keys(m._source)[i];
-            match_string = inter[0];
-            break;
-          }
+      
+      // console.log(json)
+      if(dataType === 1)
+      {
+          let tp;
+          if(json?.meta?.total%10 === 0)
+            tp = (json?.meta?.total/10)
+          else
+          tp = (json?.meta?.total/10) + 1
+          let arr = []
+          for(let i = 1; i<=tp; i++)
+            arr.push(i);
+
+          console.log(arr)
+
+          setTotalPages([...arr]);
+      }
+
+      setRawData({...json})
+  }
+
+  useEffect(() => {
+
+    if(rawData)
+    {
+        let data = {
+          text: [],
+          image: [],
+          doc: [],
+          sound: []
         }
+        rawData?.data?.map(m => {
+            
+          if(search.trim().length === 0)
+            return null
 
-        if (m?._source?.doc_type === "pdf")
-          data["doc"].push({ ...m, main_index, match_string: match_string });
-        else
-          data[m?._source?.doc_type].push({
-            ...m,
-            main_index,
-            match_string: match_string,
-          });
-      });
+          let arr1 = search.trim().split(" ")
 
-      setMainData({ ...data });
+          arr1 = arr1.map(a => a.toLowerCase())
+          console.log(arr1)
+
+          let main_index = null;
+          let match_string = ""
+          for(let i = 0; i<Object.keys(m._source).length; i++)
+          {
+            let arr2 = m?._source[Object.keys(m._source)[i]]?.toString().toLowerCase()
+            
+            const inter = arr1.filter(x => arr2?.includes(x) === true)
+          
+            if(inter.length > 0)
+            {
+              main_index = Object.keys(m._source)[i]
+              match_string = inter[0]
+              break;
+            }
+          }
+
+          if(m?._source?.doc_type === 'pdf')
+            data['doc'].push({...m, main_index, match_string:match_string})
+          else 
+            data[m?._source?.doc_type].push({...m, main_index, match_string:match_string})
+
+        })
+
+        setMainData({...data})
+
     }
-  }, [rawData]);
+
+  }, [rawData])
 
   const searchPage = (p) => {
-    if (p > totalPages.length || p < 0) {
+
+    if(p > totalPages.length || p < 0)
+    {
       toast({
-        status: "error",
+        status:'error',
         duration: 6000,
         isClosable: true,
-        title: "page not found!",
-      });
-    } else {
-      setPage(parseInt(p));
+        title: 'page not found!'
+    })
     }
-  };
+    else
+    {
+      setPage(parseInt(p))
+    }
+
+  }
 
   useEffect(() => {
     fetchData();
@@ -171,8 +182,38 @@ const Search = () => {
           <FaSearch />
         </Button>
 
-        <FilterModal selectedFields={setFilters} filters={filters} />
+        <FilterModal selectedFields={setFilters} filters={filters}/>
+
       </Flex>
+      ) : (
+        <></>
+      )}
+      {rawData ? (
+        <Flex gap={5} justifyContent={"center"}>
+          <Text textAlign={"center"}>Total Docs : {rawData?.meta?.total}</Text>
+          <Text textAlign={"center"}>Query Time : {queryTime} ms</Text>
+        </Flex>
+      ) : (
+        <></>
+      )}
+      {rawData ? (
+        <Flex
+          w={"100%"}
+          justifyContent="space-evenly"
+          alignItems={"center"}
+          position={"relative"}
+          // bg={'red.200'}
+        >
+          <Flex
+            gap={1}
+            // bg={'blue.300'}
+          >
+            {totalPages?.map((p) => {
+              console.log("PAGE: ", p);
+              if (p <= 2);
+              else if (p >= totalPages?.length - 2);
+              else if (p < page) return <></>;
+              else if (p > page + 5) return <></>;
 
       {loading ? (
         <Flex minH={"65vh"} align={"center"} justifyContent={"center"} gap={10}>
@@ -210,41 +251,39 @@ const Search = () => {
               else if (p > page + 5) return <></>;
 
               return (
-                <Button
-                  key={p}
+                <Button key={p}
                   onClick={() => setPage(p)}
-                  bg={p === page ? "cyan.700" : ""}
-                >
-                  {p}
-                </Button>
-              );
-            })}
-          </Flex>
+                  bg={p === page?'cyan.700':""}
 
-          <Flex
-            gap={4}
-            position="relative"
-            // bg={'yellow.600'}
-          >
-            <Input
-              id={"pageinput"}
-              placeholder="Page"
-              type={"number"}
-              maxW={"30%"}
-              onKeyDown={(e) =>
-                e.key === "Enter" ? searchPage(e.target.value) : null
-              }
-            />
-            <Button
-              onClick={() =>
-                searchPage(document.getElementById("pageinput").value || 1)
-              }
+                >{p}</Button>
+                )
+              })}
+
+            </Flex>
+
+            <Flex
+              gap={4}
+              position="relative"
+              // bg={'yellow.600'}
             >
-              <FaArrowRight />
-            </Button>
-          </Flex>
-        </Flex>
-      ) : null}
+              <Input          
+                id={'pageinput'}
+                placeholder="Page"
+                type={'number'}
+                maxW={'30%'}
+                onKeyDown={e => e.key === 'Enter'?searchPage(e.target.value):null}
+              />
+              <Button
+                onClick={() => searchPage(document.getElementById('pageinput').value || 1)}
+              >
+                <FaArrowRight/>
+              </Button>
+            </Flex>
+          
+
+      </Flex>:null}
+
+
 
       <Flex
         gap={5}
@@ -265,8 +304,13 @@ const Search = () => {
           console.log(match, m._source[m?.main_index].length);
 
           return (
-            <Flex w={"full"} alignItems={"center"} justifyContent={"center"}>
-              <Flex
+            <Flex
+              w={'full'}
+              alignItems={'center'}
+              justifyContent={'center'}
+            >
+
+              <Flex 
                 key={m._id}
                 justifyContent={"space-between"}
                 _hover={{
@@ -324,34 +368,42 @@ const Search = () => {
             w={"full"}
             gap={3}
           >
-            <Text fontSize={20} fontWeight={500}>
-              IMAGES
-            </Text>
-            <Flex gap={5} wrap={"wrap"}>
-              {mainData["image"]?.map((m) => {
-                return (
-                  <Flex
-                    key={m._id}
-                    _hover={{
-                      transform: "scale(1.05)",
-                    }}
-                    transition={"all 0.2s ease-in-out"}
-                    w={"90%"}
-                    rounded={"md"}
-                    px={4}
-                    py={1}
-                    role={"group"}
-                    bg={"gray.800"}
-                    alignItems={"center"}
-                    cursor={"pointer"}
-                    direction={"column"}
-                    onClick={() => window.open(m?._source?.url, "_blank")}
-                  >
-                    <Text>{m?._index}</Text>
-                    <Image w={"200px"} src={m?._source?.url} />
-                  </Flex>
-                );
-              })}
+            <Text
+              fontSize={20}
+              fontWeight={500}
+            >IMAGES</Text>
+            <Flex
+              gap={5}
+              wrap={'wrap'}
+            >
+            {mainData['image']?.map(m => {
+
+              return(
+                <Flex
+                  key={m._id}
+                  _hover={{
+                    transform: "scale(1.05)"
+                  }}
+                  transition={'all 0.2s ease-in-out'}
+                  w={'90%'}
+                  rounded={'md'}
+                  px={4}
+                  py={1}
+                  role={'group'}
+                  bg={'gray.800'}
+                  alignItems={'center'}
+                  cursor={'pointer'}
+                  direction={'column'}
+                  onClick={() => naviToDoc(m?._index, m?._id)}
+                >
+                  <Text>{m?._index}</Text>
+                  <Image 
+                    w={'200px'}
+                    src={m?._source?.url}
+                  />
+                </Flex>
+              )
+            })}
             </Flex>
           </Flex>
         ) : (

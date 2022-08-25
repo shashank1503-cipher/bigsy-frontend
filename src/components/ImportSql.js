@@ -94,7 +94,7 @@ function ImportSql() {
       method: "POST",
       body: formdata,
     });
-
+    
     if(res.status !== 200)
     {
       setSending(3)
