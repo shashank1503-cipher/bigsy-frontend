@@ -7,7 +7,7 @@ import { HiOutlineTable, HiOutlineCode } from "react-icons/hi";
 import { FiDatabase, FiUpload } from "react-icons/fi";
 import { IoIosStats } from "react-icons/io";
 import { BiCodeCurly } from "react-icons/bi";
-import {FaFileCsv} from 'react-icons/fa'
+import { FaFileCsv, FaFileArchive} from 'react-icons/fa'
 const Admin = () => {
   return (
     <Flex direction={"column"} py={6}>
@@ -21,6 +21,7 @@ const Admin = () => {
         minH={"55vh"}
       >
         <AdminCard title={"Add Data to DB"} icon={FiPlus} url={"/add"} />
+        <AdminCard title={"Upload Bulk Files"} icon={FaFileArchive} url={"/bulk"} />
         <AdminCard title={"Upload File"} icon={FiUpload} url={"/upload"} />
         <AdminCard
           title={"Get Collections From DB"}

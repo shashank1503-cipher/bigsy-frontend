@@ -1,7 +1,10 @@
-import { Button, Flex, Heading, Input, Text, useToast } from "@chakra-ui/react";
+import { Button, Flex, Heading, Input, Text, useToast, Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink, } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { FiUpload } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 function ImportCsv() {
   const [file, setFile] = useState("");
@@ -112,6 +115,20 @@ function ImportCsv() {
   };
 
   return (
+    <>
+      <Breadcrumb>
+        <BreadcrumbItem>
+          <Link to={"/admin"}>
+            <BreadcrumbLink>Dashboard</BreadcrumbLink>
+          </Link>
+        </BreadcrumbItem>
+
+        <BreadcrumbItem>
+          <Link to={"/importcsv"}>
+            <BreadcrumbLink>Import_CSV</BreadcrumbLink>
+          </Link>
+        </BreadcrumbItem>
+      </Breadcrumb>
     <Flex direction={"column"} textAlign={"center"} p={6}>
       <Flex direction={"column"} p={6} justifyContent={"space-between"} gap={5}>
         <Heading fontSize={"5xl"}>Import CSV</Heading>
@@ -167,6 +184,7 @@ function ImportCsv() {
         <Button onClick={() => ImportSql()}>Add Data</Button>
       </Flex>
     </Flex>
+    </>
   );
 }
 

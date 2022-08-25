@@ -210,9 +210,9 @@ const Upload = () => {
           justifyContent={"space-between"}
           gap={5}
         >
-          <Heading fontSize={"5xl"}>Upload Files </Heading>
+          <Heading fontSize={"5xl"}>Upload File</Heading>
           <Text>
-            You can drop any of your files to add it to the database and search
+            You can drop any of your file to add it to the database and search
             it.
           </Text>
         </Flex>
@@ -223,13 +223,13 @@ const Upload = () => {
 
           <Card title={"Upload Image"} icon={FiImage} url={"image"}/>
           <Card
-            title={"Upload Doc Files"}
+            title={"Upload Doc File"}
             icon={BsFileEarmarkWordFill}
             url={"doc"}
             
           />
-          <Card title={"Upload PDF Files"} icon={BsFilePdf} url={"pdf"} />
-          <Card title={"Upload Sound Files"} icon={BsSoundwave} url={"sound"} />
+          <Card title={"Upload PDF File"} icon={BsFilePdf} url={"pdf"} />
+          <Card title={"Upload Sound File"} icon={BsSoundwave} url={"sound"} />
         </Flex>
         {type && (
           <Flex direction={"column"} p={12} margin={"auto"} gap={5}>
@@ -246,7 +246,7 @@ const Upload = () => {
               handleChange={handleChange}
               name="file"
               types={fileTypes}
-              hoverTitle={`Drag and drop ${fileTypes} files here`}
+              hoverTitle={`Drag and drop ${fileTypes} file here`}
               onDraggingStateChange={() => {
                 console.log("Called");
                 setDragging(!dragging);
