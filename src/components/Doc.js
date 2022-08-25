@@ -256,11 +256,11 @@ function Doc() {
         <ImageDoc/>:<></>
       }
 
-      <Button
+      {/* <Button
         position={'absolute'}
         bottom={10}
         bg={'red.600'}
-      >Delete</Button>
+      >Delete</Button> */}
     </Flex>
   )
 }

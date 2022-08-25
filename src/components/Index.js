@@ -224,6 +224,7 @@ function Index() {
                             placeholder={'Search Index'}
                         />
 
+
                         <Box>
                             <Text mb={5} fontSize={20} fontWeight={500}>All Features <Text color={'gray.600'} fontSize={16}>You can select features to search through those </Text></Text>    
 
@@ -233,10 +234,10 @@ function Index() {
                                 gap={2}
                                 justifyContent={"space-evenly"}
                             >
-                                {doc && Object.keys(doc?.data?.mappings.properties).map(k => {
+                                {doc && Object.keys(doc?.data?.mappings)?.length>0?Object.keys(doc?.data?.mappings?.properties)?.map(k => {
                                     return <Text
                                         p={2}
-                                        bg={selected.includes(k)?'cyan.600':'rgba(0,0,0,0.2)'}
+                                        bg={selected?.includes(k)?'cyan.600':'rgba(0,0,0,0.2)'}
                                         cursor={'pointer'}
                                         transition={'all 0.25s ease'}
                                         _hover={{
@@ -245,8 +246,8 @@ function Index() {
 
                                         onClick={() => {
                                             let sell = [...selected]
-                                            if(selected.includes(k))
-                                                sell = sell.filter(s => s!==k)
+                                            if(selected?.includes(k))
+                                                sell = sell?.filter(s => s!==k)
                                             else
                                                 sell.push(k)
 
@@ -255,7 +256,12 @@ function Index() {
 
                                         rounded={'md'}
                                     >{k}</Text>
-                                })}
+                                    
+                                })
+                                :
+                                    <Text>No Features in this collection</Text>
+                            }
+                                
 
                             </Flex>
                         </Box>
