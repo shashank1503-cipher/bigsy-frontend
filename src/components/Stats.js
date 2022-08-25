@@ -125,6 +125,8 @@ const Stats = () => {
                 }
                 color="green.400"
                 size={"l"}
+                minW={250}
+                minH={250}
               >
                 <CircularProgressLabel fontSize={"xl"}>
                   {data?.data?.memory_usage_pretty?.available +

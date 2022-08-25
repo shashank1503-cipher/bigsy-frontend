@@ -196,7 +196,11 @@ const Search = () => {
       </Flex>
 
       {rawData?
-        <Text textAlign={'center'}>Total Docs : {rawData?.meta?.total}</Text>:<></>
+        <>
+        <Text textAlign={'center'}>Total Docs : {rawData?.meta?.total}</Text>
+        {/* <Text textAlign={"center"}>Query Time : {queryTime} ms</Text> */}
+        </>
+        :<></>
       }
 
       {rawData && totalPages.length > 1?
@@ -222,54 +226,21 @@ const Search = () => {
 
               else if(p > page+3)
                 return <></>
-
-      {loading ? (
-        <Flex minH={"65vh"} align={"center"} justifyContent={"center"} gap={10}>
-          <Spinner />
-          <Text>Finding your needle in Haystack</Text>{" "}
-        </Flex>
-      ) : (
-        <></>
-      )}
-      {rawData ? (
-        <Flex gap={5} justifyContent={"center"}>
-          <Text textAlign={"center"}>Total Docs : {rawData?.meta?.total}</Text>
-          <Text textAlign={"center"}>Query Time : {queryTime} ms</Text>
-        </Flex>
-      ) : (
-        <></>
-      )}
-      {rawData ? (
-        <Flex
-          w={"100%"}
-          justifyContent="space-evenly"
-          alignItems={"center"}
-          position={"relative"}
-          // bg={'red.200'}
-        >
-          <Flex
-            gap={1}
-            // bg={'blue.300'}
-          >
-            {totalPages?.map((p) => {
-              console.log("PAGE: ", p);
-              if (p <= 2);
-              else if (p >= totalPages?.length - 2);
-              else if (p < page) return <></>;
-              else if (p > page + 5) return <></>;
-
+              
               return (
-                <Button key={p}
+                <Button
+                  bg={p===page?'cyan.700':''}
                   onClick={() => setPage(p)}
-                  bg={p === page?'cyan.700':""}
+                  
+                >
+                  {p}
+                </Button>
+              )
 
-                >{p}</Button>
-                )
-              })}
+            })}
 
-            </Flex>
-
-            <Flex
+          </Flex>      
+          <Flex
               gap={4}
               position="relative"
               // bg={'yellow.600'}
@@ -562,16 +533,3 @@ const Search = () => {
   )
 }
 export default Search;
-
-
-// const styles = StyleSheet.create({
-//   page: {
-//     flexDirection: 'row',
-//     backgroundColor: '#E4E4E4'
-//   },
-//   section: {
-//     margin: 10,
-//     padding: 10,
-//     flexGrow: 1
-//   }
-// });
