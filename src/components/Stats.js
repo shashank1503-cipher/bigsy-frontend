@@ -49,7 +49,7 @@ const Stats = () => {
           <Spinner />
         </Flex>
       ) : error ? (
-        <Flex h={"65vh"}>
+        <Flex h={"65vh"} align={'center'}>
           <Alert status="error">
             <AlertIcon />
             <AlertTitle>Error Fetching Data</AlertTitle>
