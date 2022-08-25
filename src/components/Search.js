@@ -23,8 +23,6 @@ import {
 } from 'react-icons/fa'
 import FilterModal from '../utils/FilterModal'
 
-import ReactAudioPlayer from 'react-audio-player'
-
 const Search = () => {
 
   const [search, setSearch] = useState("")
@@ -72,10 +70,16 @@ const Search = () => {
       // console.log(json)
       if(dataType === 1)
       {
-          let tp = (json?.meta?.total/10) + 1
+          let tp;
+          if(json?.meta?.total%10 === 0)
+            tp = (json?.meta?.total/10)
+          else
+          tp = (json?.meta?.total/10) + 1
           let arr = []
           for(let i = 1; i<=tp; i++)
             arr.push(i);
+
+          console.log(arr)
 
           setTotalPages([...arr]);
       }
@@ -107,9 +111,9 @@ const Search = () => {
           let match_string = ""
           for(let i = 0; i<Object.keys(m._source).length; i++)
           {
-            let arr2 = m._source[Object.keys(m._source)[i]].toString().toLowerCase()
+            let arr2 = m?._source[Object.keys(m._source)[i]]?.toString().toLowerCase()
             
-            const inter = arr1.filter(x => arr2.includes(x) === true)
+            const inter = arr1.filter(x => arr2?.includes(x) === true)
           
             if(inter.length > 0)
             {
@@ -188,13 +192,12 @@ const Search = () => {
       {rawData?
         <Text textAlign={'center'}>Total Docs : {rawData?.meta?.total}</Text>:<></>
       }
-      {mainData.length > 0?
+      {rawData?
       <Flex
         w={'100%'}
         justifyContent='space-evenly'
         alignItems={'center'}
         position={'relative'}
-      
         // bg={'red.200'}
       >
         <Flex
@@ -203,8 +206,9 @@ const Search = () => {
         >
           {totalPages?.map(p => {
 
+            console.log("PAGE: ", p)
             if(p <= 2);
-            else if(p >= totalPages.length-2);
+            else if(p >= totalPages?.length-2);
             else if(p < page)
               return <></>
 
