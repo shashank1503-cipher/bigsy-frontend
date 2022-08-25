@@ -1,16 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from "react";
 import {
   Input,
-  Box, 
-  Flex, 
+  Box,
+  Flex,
   Button,
   Text,
-  Toast,
   useToast,
   Image,
-  position,
-  Switch,
-  FormControl,
 
 } from '@chakra-ui/react'
 
@@ -19,23 +15,23 @@ import {
   FaSearch,
   FaArrowRight,
   FaFilePdf,
-  FaFileImage,
   FaFileAudio,
-  FaFileWord
-} from 'react-icons/fa'
-import FilterModal from '../utils/FilterModal'
+  FaFileWord,
+} from "react-icons/fa";
+import FilterModal from "../utils/FilterModal";
 
 const Search = () => {
-
-  const [search, setSearch] = useState("")
-  const [rawData,setRawData] = useState(null)
+  const [queryTime, setQueryTime] = useState(0);
+  const [search, setSearch] = useState("");
+  const [rawData, setRawData] = useState(null);
   const [mainData, setMainData] = useState({
     text: [],
     image: [],
     doc: [],
-    sound: []
-  })
-  const [totalPages, setTotalPages] = useState([])
+    sound: [],
+  });
+  const [loading, setLoading] = useState(false);
+  const [totalPages, setTotalPages] = useState([]);
   const [filters, setFilters] = useState({
     index: [],
     doc: [],
@@ -76,7 +72,7 @@ const Search = () => {
       const json = await res.json()
 
       
-      console.log(json)
+      // console.log(json)
       if(dataType === 1)
       {
           let tp;
@@ -265,10 +261,10 @@ const Search = () => {
 
       <Flex
         gap={5}
-        direction={'row'}  
-        wrap={'wrap'}
+        direction={"row"}
+        wrap={"wrap"}
         // alignItems={'flex-start'}
-        w={'full'}
+        w={"full"}
       >
         {mainData['text']?.map(m => {
 
@@ -286,24 +282,23 @@ const Search = () => {
               w={'full'}
               alignItems={'center'}
               justifyContent={'center'}
-              onClick={() => naviToDoc(m?._index, m._id)}
             >
 
               <Flex 
                 key={m._id}
-                justifyContent={'space-between'}
+                justifyContent={"space-between"}
                 _hover={{
-                  transform: "scale(1.05)"
+                  transform: "scale(1.05)",
                 }}
-                transition={'all 0.2s ease-in-out'}
-                w={'90%'}
-                rounded={'md'}
+                transition={"all 0.2s ease-in-out"}
+                w={"90%"}
+                rounded={"md"}
                 px={4}
                 py={1}
-                role={'group'}
-                bg={'gray.800'}
-                alignItems={'center'}
-                cursor={'pointer'}
+                role={"group"}
+                bg={"gray.800"}
+                alignItems={"center"}
+                cursor={"pointer"}
               >
               
                 <Flex
@@ -333,18 +328,15 @@ const Search = () => {
                 <Text>{m?.main_index}</Text>
               </Flex>
             </Flex>
-          )
-
+          );
         })}
 
-        
-
-        {mainData['image']?.length > 0?
+        {mainData["image"]?.length > 0 ? (
           <Flex
-            direction={'column'}
+            direction={"column"}
             justifyContent="center"
-            alignItems={'center'}
-            w={'full'}
+            alignItems={"center"}
+            w={"full"}
             gap={3}
           >
             <Text
@@ -385,123 +377,99 @@ const Search = () => {
             })}
             </Flex>
           </Flex>
-          :<></>
-        }
+        ) : (
+          <></>
+        )}
 
-
-        {mainData['doc']?.length > 0?
+        {mainData["doc"]?.length > 0 ? (
           <Flex
-            direction={'column'}
+            direction={"column"}
             justifyContent="center"
-            alignItems={'center'}
-            w={'full'}
+            alignItems={"center"}
+            w={"full"}
             gap={3}
           >
-            <Text
-              fontSize={20}
-              fontWeight={500}
-            >DOCS</Text>
-            <Flex
-              gap={5}
-            >
-            {mainData['doc']?.map(m => {
+            <Text fontSize={20} fontWeight={500}>
+              DOCS
+            </Text>
+            <Flex gap={5}>
+              {mainData["doc"]?.map((m) => {
+                return (
+                  <Flex
+                    key={m._id}
+                    _hover={{
+                      transform: "scale(1.05)",
+                    }}
+                    px={5}
+                    py={3}
+                    transition={"all 0.2s ease-in-out"}
+                    w={"200px"}
+                    h={"200px"}
+                    rounded={"md"}
+                    role={"group"}
+                    bg={"gray.800"}
+                    alignItems={"center"}
+                    cursor={"pointer"}
+                    direction={"column"}
+                    position={"relative"}
+                    onClick={() => window.open(m?._source?.url, "_blank")}
+                  >
+                    <Text position={"absolute"}>{m?._index}</Text>
 
-              return(
-                <Flex
-                  key={m._id}
-                  _hover={{
-                    transform: "scale(1.05)"
-                  }}
-                  px={5}
-                  py={3}
-                  transition={'all 0.2s ease-in-out'}
-                  w={'200px'}
-                  h={'200px'}
-                  rounded={'md'}
-                  role={'group'}
-                  bg={'gray.800'}
-                  alignItems={'center'}
-                  cursor={'pointer'}
-                  direction={'column'}
-                  position={'relative'}
-                  onClick={() => window.open(m?._source?.url, '_blank')}
-                >
-                  <Text
-                    position={'absolute'}
-                  >{m?._index}</Text>
-
-                    <Box
-                      top={'35%'}
-                      position={'relative'}
-                    >
-
-                    {m?._source?.doc_type === 'pdf'?
-                      <FaFilePdf size={60}/>
-                      :
-                      <FaFileWord size={60}/>
-                    }
+                    <Box top={"35%"} position={"relative"}>
+                      {m?._source?.doc_type === "pdf" ? (
+                        <FaFilePdf size={60} />
+                      ) : (
+                        <FaFileWord size={60} />
+                      )}
                     </Box>
-
-                </Flex>
-              )
-            })}
+                  </Flex>
+                );
+              })}
             </Flex>
           </Flex>
-          :<></>
-        }
+        ) : (
+          <></>
+        )}
 
-
-
-
-        {mainData['sound']?.length > 0?
+        {mainData["sound"]?.length > 0 ? (
           <Flex
-            direction={'column'}
+            direction={"column"}
             justifyContent="center"
-            alignItems={'center'}
-            w={'full'}
+            alignItems={"center"}
+            w={"full"}
             gap={3}
           >
-            <Text
-              fontSize={20}
-              fontWeight={500}
-            >AUDIO</Text>
-            <Flex
-              gap={5}
-            >
-            {mainData['sound']?.map(m => {
+            <Text fontSize={20} fontWeight={500}>
+              AUDIO
+            </Text>
+            <Flex gap={5}>
+              {mainData["sound"]?.map((m) => {
+                return (
+                  <Flex
+                    key={m._id}
+                    _hover={{
+                      transform: "scale(1.05)",
+                    }}
+                    px={5}
+                    py={3}
+                    transition={"all 0.2s ease-in-out"}
+                    w={"200px"}
+                    h={"200px"}
+                    rounded={"md"}
+                    role={"group"}
+                    bg={"gray.800"}
+                    alignItems={"center"}
+                    cursor={"pointer"}
+                    direction={"column"}
+                    position={"relative"}
+                    onClick={() => window.open(m?._source?.url, "_blank")}
+                  >
+                    <Text position={"absolute"}>{m?._index}</Text>
 
-              return(
-                <Flex
-                  key={m._id}
-                  _hover={{
-                    transform: "scale(1.05)"
-                  }}
-                  px={5}
-                  py={3}
-                  transition={'all 0.2s ease-in-out'}
-                  w={'200px'}
-                  h={'200px'}
-                  rounded={'md'}
-                  role={'group'}
-                  bg={'gray.800'}
-                  alignItems={'center'}
-                  cursor={'pointer'}
-                  direction={'column'}
-                  position={'relative'}
-                  onClick={() => window.open(m?._source?.url, '_blank')}
+                    <Box top={"35%"} position={"relative"} overflow={"hidden"}>
+                      <FaFileAudio size={60} />
 
-                >
-                  <Text
-                    position={'absolute'}
-                  >{m?._index}</Text>
-
-                    <Box
-                      top={'35%'}
-                      position={'relative'}
-                      overflow={'hidden'}
-                    >
-                      <FaFileAudio size={60}/>
-                      
                       {/* <ReactAudioPlayer
                         src={m?._source?.url}
                         controls
@@ -513,26 +481,20 @@ const Search = () => {
                         }}
                         id={'player'}
                       /> */}
-
                     </Box>
-
-                </Flex>
-              )
-            })}
+                  </Flex>
+                );
+              })}
             </Flex>
           </Flex>
-          :<></>
-        }
-
-
-
+        ) : (
+          <></>
+        )}
       </Flex>
-
-   </Flex>
-  )
-}
+    </Flex>
+  );
+};
 export default Search;
-
 
 // const styles = StyleSheet.create({
 //   page: {
