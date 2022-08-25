@@ -100,7 +100,7 @@ const Upload = () => {
 
   let sendData = async () => {
     let urlMap = {
-      image: "singleimagetoindex",
+      image: "singleimagefiletoindex",
       doc: "wordtoindex",
       pdf: "pdftoindex",
       sound: "soundtoindex",
