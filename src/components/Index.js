@@ -1,6 +1,21 @@
-import { Box, Flex, Input, Text } from '@chakra-ui/react'
+import { 
+    Box,
+    Button,
+    Flex, 
+    Input, 
+    Modal, 
+    ModalBody, 
+    ModalCloseButton, 
+    ModalHeader, 
+    ModalOverlay, 
+    Text, 
+    Toast, 
+    useDisclosure,
+    useToast
+} from '@chakra-ui/react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
+import useApp from '../context/AppContext'
 
 function Index() {
 
@@ -9,10 +24,55 @@ function Index() {
     const [error, setError] = useState("")
     const [doc, setDoc] = useState(null)
     const [selected, setSelected] = useState([])
+    const {getIndices} = useApp()
+    const toast = useToast()
+
+    const navigate = useNavigate()
+
+    const [deleteOpen, setDeleteOpen] = useState(false)
+
+    const deleteIndex = async () => {
+
+        try{
+        
+        const res = await fetch("http://localhost:8000/get/delete",{
+            method: "POST",
+            body: JSON.stringify({
+                index: index
+            })
+        })
+
+        if(res.status !== 200)
+        {
+            toast({
+                status: "error",
+                title: "Error deleting collection"
+            })
+
+            setDeleteOpen(false)
+            
+        }
+        else{
+            getIndices()
+            navigate(-1)
+        }
+
+        // const json = await res.json()
+        // // console.log(json)
+        }
+
+        catch{
+            toast({
+                status: "error",
+                title: "Error deleting collection"
+            })
+
+            setDeleteOpen(false)
+        }
+
+    }
 
     useEffect(() => {
-
-        console.log(index)
 
         const func = async () => {
             
@@ -37,6 +97,56 @@ function Index() {
 
     return (
         <Flex>
+
+            <>
+            {deleteOpen?
+                <Flex
+                    bg={'rgba(0,0,0,0.2)'}
+                    backdropFilter={'blur(5px)'}
+                    transform={'scale(1)'}
+                    w={'full'}
+                    h={'full'}
+                    top={0}
+                    left={0}
+                    position="fixed"
+                    zIndex={1}
+                    justifyContent="center"
+                    alignItems={'center'}
+                >
+                    <Box>
+                        <Text
+                            fontWeight={500}
+                            fontSize={24}
+                        >Delete Collection</Text>
+                        <Text
+                            color={'gray.500'}
+                            mb={5}
+                        >This action will delete this collection along all the documents</Text>
+                        <Flex
+                            gap={2}
+                            alignSelf={'flex-end'}
+                        >
+
+                        <Button
+                            bg={'red.600'}
+                            _hover={{
+                                bg:'red.700'
+                            }}
+                            transition="all 0.25s ease"
+                            onClick={() => deleteIndex()}
+                        >Delete</Button>
+
+                        <Button onClick={() => setDeleteOpen(!deleteOpen)}>Cancel</Button>
+
+                        </Flex>
+                    </Box>
+                </Flex>
+                :
+                ""
+            }
+            </>
+
+            <>
             {error?error:
                 <Flex
                     direction={'row'}
@@ -46,14 +156,16 @@ function Index() {
                 >
                     <Flex
                         direction={'column'}
-                        
+                        alignItems={'flex-start'}
                         gap={4}
                         justifyContent={'center'}
+                        position="relative"
                     >
                         <Box
                             p={4}
                             bg={'rgba(0,0,0,0.3)'}
                             rounded={'xl'}
+                            minW={'150px'}
 
                         >
                             <Text
@@ -81,7 +193,21 @@ function Index() {
                             
                             }
                         </Box>
-
+                        
+                        <Box
+                            p={4}
+                            rounded={'xl'}
+                            w={'150px'}
+                        >
+                            <Button bg={'red.600'}
+                                transition={'all 0.25s ease-in-out'}
+                                _hover={{
+                                    bg:'red.700'
+                                }}
+                                onClick={() => setDeleteOpen(true)}
+                            >Delete</Button>
+                        </Box>
+                    
                     </Flex>
 
                     <Flex
@@ -137,11 +263,10 @@ function Index() {
 
                     </Flex>
 
-
-
                 </Flex>
                 
             }
+            </>
         </Flex>
     )
 }

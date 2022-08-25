@@ -45,6 +45,7 @@ export const AppProvider = ({ children }) => {
 
     const memo = useMemo(() => ({
         indices,
+        getIndices
     }), [indices])
 
   return (
