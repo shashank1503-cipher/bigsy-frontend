@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 import {useParams} from 'react-router-dom'
 
 import {FaLocationArrow} from 'react-icons/fa'
+import ReactAudioPlayer from 'react-audio-player'
+
 
 const KeyPair = ({keyy, value, cors}) => {
 
@@ -69,9 +71,9 @@ function Doc() {
 
   const ImageDoc = () => {
 
-    const {metadata, text_data, labels} = doc?.source
-      const {location, coordinates, date} = metadata
-      console.log(date)
+    const {metadata, text_data, labels, objects, logos} = doc?.source
+    const {location, coordinates, date} = metadata
+      
       return (
         <Flex
           gap={4}
@@ -170,6 +172,53 @@ function Doc() {
               }
             </Box>
 
+            <Box
+              bg={'rgba(0,0,0,0.2)'}
+              rounded={'md'}
+              p={2}
+            >
+              <Text
+                fontSize={20}
+                fontWeight={500}
+                color={'cyan.600'}
+              >Labels</Text>
+              <Flex
+                gap={2}
+                wrap={'wrap'}
+              >
+
+                {labels.length>0?labels?.map(l => (
+                  <Text
+                    bg={'gray.800'}
+                  >{l}</Text>
+                  )):"No labels detected"}
+              </Flex>
+            </Box>
+
+            <Box
+              bg={'rgba(0,0,0,0.2)'}
+              rounded={'md'}
+              p={2}
+            >
+              <Text
+                fontSize={20}
+                fontWeight={500}
+                color={'cyan.600'}
+              >Objects</Text>
+              <Flex
+                gap={2}
+                wrap={'wrap'}
+              >
+
+                {objects?.length > 0?objects?.map(l => (
+                  <Text
+                    bg={'gray.800'}
+                  >{l}</Text>
+                  )):"No objects in this pic"}
+              </Flex>
+            </Box>
+
+
           </Flex>
 
           <Image 
@@ -181,6 +230,49 @@ function Doc() {
       )
 
   }
+
+
+  const SoundDoc = () => {
+    
+    return (
+      <Flex
+        direction={'column'}
+        gap={5}
+        alignItems={'flex-start'}
+        justifyContent={'center'}
+        w={'full'}
+      >
+
+        <Box
+          bg={'gray.800'}
+          rounded={'md'}
+          p={4}
+        >
+          <Text
+            fontSize={20}
+            fontWeight={500}
+            color={'cyan.600'}
+          >Text from the audio file</Text>
+          <Text>{doc?.source?.content}</Text>
+        </Box>
+
+
+
+        <audio
+          src={doc?.source?.url}
+          autoPlay={true}
+          controls
+          controlsList='[noDownload]'
+          style={{css}
+            
+          }
+          />
+        
+      </Flex>
+    )
+
+  }
+
 
 
   useEffect(() => {
@@ -253,7 +345,9 @@ function Doc() {
       {doc?.source?.doc_type === 'text'?
         <TextDoc/>
         :doc?.source?.doc_type === 'image'?
-        <ImageDoc/>:<></>
+        <ImageDoc/>:
+        doc?.source?.doc_type === 'sound'?
+        <SoundDoc/>:<></>
       }
 
       {/* <Button
@@ -266,3 +360,16 @@ function Doc() {
 }
 
 export default Doc
+
+const css = `
+audio::-webkit-media-controls-panel {
+  background-color: #56AEFF;
+}
+
+audio::-webkit-media-controls-volume-slider {
+  background-color: #B1D4E0;
+  border-radius: 25px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+`
