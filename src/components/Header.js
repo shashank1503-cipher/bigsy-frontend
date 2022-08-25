@@ -86,9 +86,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Heading fontSize="2xl">
-          BigSy
-        </Heading>
+        <Heading fontSize="2xl">BigSy</Heading>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
@@ -177,7 +175,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
       >
         BigSy
       </Text>
-      <ColorModeSwitcher/>
+      <ColorModeSwitcher />
     </Flex>
   );
 };

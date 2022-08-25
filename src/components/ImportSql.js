@@ -1,12 +1,13 @@
-import { Button, Flex, Heading, Input, Text, useToast } from "@chakra-ui/react";
+import { Button, Flex, Heading, Input, Spacer, Text, useToast } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
-import { FiUpload } from "react-icons/fi";
+import { FiFile, FiUpload } from "react-icons/fi";
 
 function ImportSql() {
   const [file, setFile] = useState("");
   const [name, setName] = useState("");
   const [sending, setSending] = useState(0);
+  const [dragging, setDragging] = useState(false);
   const toast = useToast();
   let fileTypes = ["sql","sqlite3"];
   const handleChange = (file) => {
@@ -140,27 +141,44 @@ function ImportSql() {
               isClosable: true,
             })
           }
+          onDraggingStateChange={() => {
+            console.log("Called");
+            setDragging(!dragging);
+          }}
           children={
             <Flex
-              bg={"blackAlpha.600"}
-              boxShadow={"2xl"}
-              rounded={"md"}
-              overflow={"hidden"}
-              w={["full", "full", "350px", "450px"]}
-              p={12}
-              borderStyle={"dashed"}
-              borderWidth={"2px"}
-              borderColor={"grey"}
-              justifyContent={"space-evenly"}
-              gap={10}
-              direction={["column", "column", "row", "row"]}
-              alignItems={"center"}
-            >
-              <Text fontSize={"3xl"}>
-                <FiUpload />
-              </Text>
-              <Text fontSize={"xl"}>Drop File Here</Text>
-            </Flex>
+                bg={"blackAlpha.600"}
+                boxShadow={"2xl"}
+                rounded={"md"}
+                overflow={"hidden"}
+                w={["full", "full", "350px", "450px"]}
+                p={12}
+                borderStyle={"dashed"}
+                borderWidth={"2px"}
+                borderColor={"grey"}
+                justifyContent={"space-evenly"}
+                gap={10}
+                direction={["column", "column", "row", "row"]}
+                alignItems={"center"}s
+              >
+                {!dragging ? (
+                  <Spacer h={8} />
+                ) : file ? (
+                  <>
+                    <Text fontSize={"3xl"}>
+                      <FiFile />
+                    </Text>
+                    <Text fontSize={"xl"}>{file.name}</Text>
+                  </>
+                ) : (
+                  <>
+                    <Text fontSize={"3xl"}>
+                      <FiUpload />
+                    </Text>
+                    <Text fontSize={"xl"}>Drop Your SQL Here</Text>
+                  </>
+                )}
+              </Flex>
           }
         />
 
