@@ -5,8 +5,12 @@ import {
   Link,
   Text,
   useColorModeValue,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
 } from "@chakra-ui/react";
 import React from "react";
+import { Link as RouterLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import useApp from "../context/AppContext";
 import { Link as NavLink } from "react-router-dom";
@@ -23,6 +27,20 @@ function Indexes() {
     });
 
   return (
+    <>
+      <Breadcrumb>
+        <BreadcrumbItem>
+          <RouterLink to={"/admin"}>
+            <BreadcrumbLink>Dashboard</BreadcrumbLink>
+          </RouterLink>
+        </BreadcrumbItem>
+
+        <BreadcrumbItem>
+          <RouterLink to={"/indices"}>
+            <BreadcrumbLink>DB_Collections</BreadcrumbLink>
+          </RouterLink>
+        </BreadcrumbItem>
+      </Breadcrumb>
     <Flex direction={"row"} wrap={"wrap"} gap={5} justifyContent="space-evenly">
       {indices.length > 0 ? (
         <Flex
@@ -84,6 +102,7 @@ function Indexes() {
         </Flex>
       )}
     </Flex>
+    </>
   );
 }
 

@@ -17,6 +17,7 @@ import "@fontsource/source-code-pro/700.css";
 import "@fontsource/poppins/700.css";
 import "@fontsource/ubuntu/400.css";
 import Hero from "./components/Hero";
+import UploadBulk from "./components/UploadBulk";
 
 function App() {
   localStorage.setItem("chakra-ui-color-mode", "dark");
@@ -31,6 +32,7 @@ function App() {
           <Route path="/importjson" element={<ImportJSON />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/add" element={<AddDataToDB />} />
+          <Route path="/bulk" element={<UploadBulk />} />
           <Route path="/indices" element={<Indexes />} />
           <Route path="/index" element={<Index />} />
           <Route path="/upload" element={<Upload />} />
