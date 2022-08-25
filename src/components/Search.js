@@ -5,7 +5,6 @@ import {
   Flex, 
   Button,
   Text,
-  Toast,
   useToast,
   Image,
   position,
@@ -36,9 +35,9 @@ const Search = () => {
   const [totalPages, setTotalPages] = useState([])
   const [filters, setFilters] = useState({
     index: [],
-    doc: []
+    doc: [],
+    fuzzy: false
   })
-
   const naviToDoc = (index,id) => {
     window.open(`http://localhost:3000/doc/${index}/${id}`)
   }
@@ -64,7 +63,11 @@ const Search = () => {
       
       if(search.length === 0)
         return
-      const url = `http://127.0.0.1:8000/search?q=${search}&page=${page}&filters=${JSON.stringify(filters)}`
+      
+      let toSearch = search
+
+      console.log(toSearch)
+      const url = `http://127.0.0.1:8000/search?q=${toSearch}&page=${page}&filters=${JSON.stringify(filters)}`
 
       const res = await fetch(url)
       const json = await res.json()
@@ -193,7 +196,11 @@ const Search = () => {
       </Flex>
 
       {rawData?
-        <Text textAlign={'center'}>Total Docs : {rawData?.meta?.total}</Text>:<></>
+        <>
+        <Text textAlign={'center'}>Total Docs : {rawData?.meta?.total}</Text>
+        {/* <Text textAlign={"center"}>Query Time : {queryTime} ms</Text> */}
+        </>
+        :<></>
       }
 
       {rawData && totalPages.length > 1?
@@ -202,6 +209,7 @@ const Search = () => {
         justifyContent='space-evenly'
         alignItems={'center'}
         position={'relative'}
+        gap={2}
         // bg={'red.200'}
       >
           <Flex
@@ -210,7 +218,7 @@ const Search = () => {
           >
             {totalPages?.map(p => {
 
-              console.log("PAGE: ", p)
+              // console.log("PAGE: ", p)
               if(p <= 2);
               else if(p >= totalPages?.length-2);
               else if(p < page-2)
@@ -218,20 +226,21 @@ const Search = () => {
 
               else if(p > page+3)
                 return <></>
-
-
+              
               return (
-                <Button key={p}
+                <Button
+                  bg={p===page?'cyan.700':''}
                   onClick={() => setPage(p)}
-                  bg={p === page?'cyan.700':""}
+                  
+                >
+                  {p}
+                </Button>
+              )
 
-                >{p}</Button>
-                )
-              })}
+            })}
 
-            </Flex>
-
-            <Flex
+          </Flex>      
+          <Flex
               gap={4}
               position="relative"
               // bg={'yellow.600'}
@@ -267,11 +276,11 @@ const Search = () => {
           let match
           if(m?._source?.doc_type === 'text' || !m?._source?.doc_type)
           {
-              match = m?._source[m?.main_index].toLowerCase().match(m?.match_string)
+              match = m?._source[m?.main_index]?.toLowerCase().match(m?.match_string)
               match = match?.index
           }
           // console.log(m?.main_index)
-          console.log(match, m._source[m?.main_index].length)
+          // console.log(match, m?._source[m?.main_index]?.length)
 
           return (
             <Flex
@@ -307,19 +316,22 @@ const Search = () => {
                         color: 'cyan.700'
                       }}
                     >{m?._index}</Text>
+                    <>
                     
                     <Text
                       color={'gray.500'}
                       fontSize={'14px'}
                     >
-                      {m?._source[m.main_index].slice(0, match)}
+                      {m?._source[m?.main_index]?.slice(0, match)}
                       <Text as={'mark'} bgColor={'cyan.700'} color={'white'} p={1}>
-                        {m?._source[m.main_index].slice(match, match+m?.match_string.length)}
+                        {m?._source[m?.main_index]?.slice(match, match+m?.match_string?.length)}
                       </Text>
-                      {m?._source[m.main_index].slice(match+m?.match_string.length)}
+                      {m?._source[m?.main_index]?.slice(match+m?.match_string?.length)}
                     </Text>
+                    
+                    </>
                 </Flex>
-                <Text>{m.main_index}</Text>
+                <Text>{m?.main_index}</Text>
               </Flex>
             </Flex>
           )
@@ -521,16 +533,3 @@ const Search = () => {
   )
 }
 export default Search;
-
-
-// const styles = StyleSheet.create({
-//   page: {
-//     flexDirection: 'row',
-//     backgroundColor: '#E4E4E4'
-//   },
-//   section: {
-//     margin: 10,
-//     padding: 10,
-//     flexGrow: 1
-//   }
-// });

@@ -175,7 +175,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
       >
         BigSy
       </Text>
-      <ColorModeSwitcher />
+      {/* <ColorModeSwitcher/> */}
     </Flex>
   );
 };

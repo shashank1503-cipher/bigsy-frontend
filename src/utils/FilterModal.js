@@ -10,6 +10,8 @@ import {
     useDisclosure,
     Button,
     Text,
+    FormControl,
+    Switch,
 } from '@chakra-ui/react'
 import React from 'react'
 import { useState } from 'react'
@@ -50,6 +52,18 @@ function FilterModal({selectedFields, filters}) {
                         gap={4}
                         // Index Search
                     >
+
+                    <FormControl
+                        textAlign={'center'}
+                        fontSize={18}
+                        fontWeight={500}
+                    >
+                        Show Relavent Searches <Switch id={'switch'} onChange={(e) => setSelectFields({
+                            ...selectFields,
+                            fuzzy: e.target.checked
+                        })}/>
+                    </FormControl>
+
                     <Text
                         fontSize={'18px'}
                         fontWeight={500}
