@@ -24,10 +24,10 @@ const SearchHeading = ({isVisible}) => {
         </Heading>
         <Text
           mt={5}
-          fontSize={["16px", "16px", "18px", "20px"]}
+          fontSize={["16px", "16px", "25px", "30px"]}
           w={"75%"}
           textAlign={"center"}
-          fontFamily={`'Ubuntu', sans-serif;`}
+          fontFamily={`'Poppins', sans-serif;`}
           fontWeight={"medium"}
         >
           in a HayStack
