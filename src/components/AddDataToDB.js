@@ -16,7 +16,9 @@ import KeyValue from "./KeyValue";
 import { FiPlus, FiDelete, FiCheckCircle } from "react-icons/fi";
 import AddDataContext from "../context/AddDataContext";
 import { Link } from "react-router-dom";
+import useApp from "../context/AppContext";
 const AddDataToDB = () => {
+  let { getIndices } = useApp();
   let { key, value, setKey, setValue } = useContext(AddDataContext);
   const [countFields, setCountFields] = useState(1);
   const [name, setName] = useState("");
@@ -87,6 +89,7 @@ const AddDataToDB = () => {
           });
           setName("");
           setCurrentData([]);
+          getIndices();
         } else {
           let json = await response.json();
           toast({

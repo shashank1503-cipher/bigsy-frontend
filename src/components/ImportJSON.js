@@ -15,8 +15,11 @@ import React, { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { FiFile, FiUpload } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import useApp from "../context/AppContext";
 
 function ImportJSON() {
+  let { getIndices } = useApp();
+
   const [file, setFile] = useState("");
   const [name, setName] = useState("");
   const [sending, setSending] = useState(0);
@@ -95,6 +98,7 @@ function ImportJSON() {
     // setTimeout(() => setSending(2),2000);
 
     setSending(2);
+    getIndices();
   };
 
   return (

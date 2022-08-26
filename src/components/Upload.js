@@ -18,10 +18,12 @@ import { FiImage, FiFile, FiUpload } from "react-icons/fi";
 import { BsFileEarmarkWordFill, BsFilePdf, BsSoundwave } from "react-icons/bs";
 import { Link, useSearchParams } from "react-router-dom";
 import { FileUploader } from "react-drag-drop-files";
+import useApp from "../context/AppContext";
 
 const Upload = () => {
   const [params] = useSearchParams();
-
+  let { getIndices } = useApp();
+  
   let type = params.get("type");
 
   const [name, setName] = useState("");
@@ -72,6 +74,8 @@ const Upload = () => {
             duration: 9000,
             isClosable: true,
           });
+          getIndices();
+          
         } else {
           const data = await res.json();
           console.log(data);

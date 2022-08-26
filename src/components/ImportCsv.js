@@ -1,12 +1,22 @@
-import { Button, Flex, Heading, Input, Text, useToast, Breadcrumb,
+import {
+  Button,
+  Flex,
+  Heading,
+  Input,
+  Text,
+  useToast,
+  Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink, } from "@chakra-ui/react";
+  BreadcrumbLink,
+} from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { FiUpload } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import useApp from "../context/AppContext";
 
 function ImportCsv() {
+  let { getIndices } = useApp();
   const [file, setFile] = useState("");
   const [name, setName] = useState("");
   const [sending, setSending] = useState(0);
@@ -28,22 +38,21 @@ function ImportCsv() {
       });
     }
 
-    if(sending === 3)
-    {
-        if (toast != null) toast.closeAll();
+    if (sending === 3) {
+      if (toast != null) toast.closeAll();
 
-        setTimeout(
-          () =>
-            toast({
-              status: "error",
-              duration: 4000,
-              title: "error in CSV",
-              isClosable: true
-            }),
-          0
-        );
-  
-        setSending(0);
+      setTimeout(
+        () =>
+          toast({
+            status: "error",
+            duration: 4000,
+            title: "error in CSV",
+            isClosable: true,
+          }),
+        0
+      );
+
+      setSending(0);
     }
 
     if (sending === 2) {
@@ -97,21 +106,15 @@ function ImportCsv() {
       body: formdata,
     });
 
-    if(res.status !== 200)
-    {
-      setSending(3)
-    }
-    else
-    {
+    if (res.status !== 200) {
+      setSending(3);
+    } else {
       const json = await res.json();
       console.log(json);
-
       // setTimeout(() => setSending(2),2000);
-
       setSending(2);
+      getIndices();
     }
-
-    
   };
 
   return (
@@ -129,61 +132,66 @@ function ImportCsv() {
           </Link>
         </BreadcrumbItem>
       </Breadcrumb>
-    <Flex direction={"column"} textAlign={"center"} p={6}>
-      <Flex direction={"column"} p={6} justifyContent={"space-between"} gap={5}>
-        <Heading fontSize={"5xl"}>Import CSV</Heading>
-        <Text>Drop Your CSV Here to Add it to the Database</Text>
-      </Flex>
-      <Flex direction={"column"} p={12} margin={"auto"} gap={5}>
-        <Input
-          type={"text"}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Name of the SQL Dump"
-          focusBorderColor="blue.500"
-          borderColor="gray.500"
-          value={name}
-        />
-        <FileUploader
-          handleChange={handleChange}
-          name="file"
-          types={fileTypes}
-          hoverTitle={`Drag and drop ${fileTypes} files here`}
-          onTypeError={() =>
-            toast({
-              status: "warning",
-              title: "Wrong File Type",
-              description: "Wrong File Type",
-              duration: 1000,
-              isClosable: true,
-            })
-          }
-          children={
-            <Flex
-              bg={"blackAlpha.600"}
-              boxShadow={"2xl"}
-              rounded={"md"}
-              overflow={"hidden"}
-              w={["full", "full", "350px", "450px"]}
-              p={12}
-              borderStyle={"dashed"}
-              borderWidth={"2px"}
-              borderColor={"grey"}
-              justifyContent={"space-evenly"}
-              gap={10}
-              direction={["column", "column", "row", "row"]}
-              alignItems={"center"}
-            >
-              <Text fontSize={"3xl"}>
-                <FiUpload />
-              </Text>
-              <Text fontSize={"xl"}>Drop File Here</Text>
-            </Flex>
-          }
-        />
+      <Flex direction={"column"} textAlign={"center"} p={6}>
+        <Flex
+          direction={"column"}
+          p={6}
+          justifyContent={"space-between"}
+          gap={5}
+        >
+          <Heading fontSize={"5xl"}>Import CSV</Heading>
+          <Text>Drop Your CSV Here to Add it to the Database</Text>
+        </Flex>
+        <Flex direction={"column"} p={12} margin={"auto"} gap={5}>
+          <Input
+            type={"text"}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Name of the SQL Dump"
+            focusBorderColor="blue.500"
+            borderColor="gray.500"
+            value={name}
+          />
+          <FileUploader
+            handleChange={handleChange}
+            name="file"
+            types={fileTypes}
+            hoverTitle={`Drag and drop ${fileTypes} files here`}
+            onTypeError={() =>
+              toast({
+                status: "warning",
+                title: "Wrong File Type",
+                description: "Wrong File Type",
+                duration: 1000,
+                isClosable: true,
+              })
+            }
+            children={
+              <Flex
+                bg={"blackAlpha.600"}
+                boxShadow={"2xl"}
+                rounded={"md"}
+                overflow={"hidden"}
+                w={["full", "full", "350px", "450px"]}
+                p={12}
+                borderStyle={"dashed"}
+                borderWidth={"2px"}
+                borderColor={"grey"}
+                justifyContent={"space-evenly"}
+                gap={10}
+                direction={["column", "column", "row", "row"]}
+                alignItems={"center"}
+              >
+                <Text fontSize={"3xl"}>
+                  <FiUpload />
+                </Text>
+                <Text fontSize={"xl"}>Drop File Here</Text>
+              </Flex>
+            }
+          />
 
-        <Button onClick={() => ImportSql()}>Add Data</Button>
+          <Button onClick={() => ImportSql()}>Add Data</Button>
+        </Flex>
       </Flex>
-    </Flex>
     </>
   );
 }

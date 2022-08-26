@@ -15,8 +15,11 @@ import React, { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { FiFile, FiUpload } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import useApp from "../context/AppContext";
 
 function UploadZipFile() {
+  let { getIndices } = useApp();
+
   const [file, setFile] = useState("");
   const [index, setIndex] = useState("");
   const [sending, setSending] = useState(0);
@@ -95,6 +98,7 @@ function UploadZipFile() {
     // setTimeout(() => setSending(2),2000);
 
     setSending(2);
+    getIndices();
   };
 
   return (
@@ -121,7 +125,10 @@ function UploadZipFile() {
           gap={5}
         >
           <Heading fontSize={"5xl"}>Upload Zip File</Heading>
-          <Text>Drop your .zip file containing Images here, to add it to the database</Text>
+          <Text>
+            Drop your .zip file containing Images here, to add it to the
+            database
+          </Text>
         </Flex>
         <Flex direction={"column"} p={12} margin={"auto"} gap={5}>
           <Input
