@@ -16,6 +16,7 @@ import { FileUploader } from "react-drag-drop-files";
 import { FiFile, FiUpload } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import useApp from "../context/AppContext";
+import UploadingFrontend from "./UploadingFrontend";
 
 function UploadZipFile() {
   let { getIndices } = useApp();
@@ -38,6 +39,7 @@ function UploadZipFile() {
         status: "loading",
         duration: null,
         title: "Sending Data...",
+        position: "bottom-right",
       });
     }
 
@@ -50,6 +52,7 @@ function UploadZipFile() {
             status: "success",
             duration: 4000,
             title: "Data posted",
+            position: "bottom-right",
           }),
         0
       );
@@ -65,6 +68,7 @@ function UploadZipFile() {
         title: "Empty Field",
         description: "empty field",
         duration: 1000,
+        position: "bottom-right",
       });
       return;
     }
@@ -75,6 +79,7 @@ function UploadZipFile() {
         title: "Already sending data",
         description: "sending data",
         duration: 1000,
+        position: "bottom-right",
       });
       return;
     }
@@ -103,7 +108,11 @@ function UploadZipFile() {
 
   return (
     <>
-      <Breadcrumb>
+      <Breadcrumb
+        w={sending !== 0 ? "0vw" : "full"}
+        overflow={"hidden"}
+        transition={"all 0.2s ease-in-out"}
+      >
         <BreadcrumbItem>
           <Link to={"/admin"}>
             <BreadcrumbLink>Dashboard</BreadcrumbLink>
@@ -116,8 +125,17 @@ function UploadZipFile() {
           </Link>
         </BreadcrumbItem>
       </Breadcrumb>
+      <UploadingFrontend sending={sending} />
 
-      <Flex direction={"column"} textAlign={"center"} p={6}>
+      <Flex
+        direction={"column"}
+        textAlign={"center"}
+        p={6}
+        w={sending !== 0 ? "0vw" : "full"}
+        overflow={"hidden"}
+        h={sending !== 0 ? "0vh" : "full"}
+        transition={"all 0.5s ease-in-out"}
+      >
         <Flex
           direction={"column"}
           p={6}
