@@ -32,7 +32,7 @@ const Hero = () => {
         fontSize={["16px", "16px", "18px", "20px"]}
         w={"75%"}
         textAlign={"center"}
-        fontFamily={`'Ubuntu', sans-serif;`}
+        fontFamily={`'Poppins', sans-serif;`}
         fontWeight={"medium"}
       >
         &gt;_ made easy with BigSy
