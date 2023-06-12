@@ -1,70 +1,136 @@
-# Getting Started with Create React App
+<div id="top"></div>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://partners-in-crime.vercel.app/">
+    <img src="https://user-images.githubusercontent.com/54381338/205857067-206a8839-d56f-447b-94de-6e40d496a269.png" alt="Logo" >
+    
+  </a>
 
-In the project directory, you can run:
+  <h3 align="center">BigSy</h3>
 
-### `npm start`
+  <p align="center">
+    To bring developers together from the same college to collaborate.
+   </p>
+   <p align="center">
+    <a href="https://github.com/shashank1503-cipher/partners-in-crime/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/shashank1503-cipher/partners-in-crime/issues">Request Feature</a>
+  </p>
+</div>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+<!-- ABOUT THE PROJECT -->
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## About The Project
 
-### `npm test`
+<img src="https://res.cloudinary.com/dpjf6btln/image/upload/v1658199960/Landing_page_f2kkmz.png" alt="Landing page">
+</img>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+&lt;partnersInCrime&gt; is a web platform specially designed for IIIT-K students which aims at facilitating smooth interaction between the college-mates regarding all the collaborative projects and hackathons held on various platforms.
 
-### `npm run build`
+### Screenshots
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![image](https://user-images.githubusercontent.com/54381338/181453334-de6509ab-12ce-462c-96fa-f7e2bb7182a9.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![image](https://user-images.githubusercontent.com/54381338/181453449-24ba4b55-925a-43a9-8e4c-06f83b3b1b06.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+![image](https://user-images.githubusercontent.com/54381338/181453517-446c6f2f-d05e-48d3-8f80-9fc39fc0defc.png)
 
-### `npm run eject`
+![image](https://user-images.githubusercontent.com/54381338/181453603-13bcb750-2fbb-40d1-a554-6004912927ec.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+![image](https://user-images.githubusercontent.com/54381338/181453770-ed9f16f4-9fad-4778-b579-23aec42e4256.png)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![image](https://user-images.githubusercontent.com/54381338/181453858-2385f0f4-45c1-403b-9334-928d3f379704.png)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+![image](https://user-images.githubusercontent.com/54381338/181453967-afeff934-ed7a-41c3-bc3e-faf9a86019fa.png)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Built With
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- [React.js](https://reactjs.org/)
+- [Chakra-UI](https://chakra-ui.com/)
+- [FastAPI](https://fastapi.tiangolo.com/)
+- [MongoDB](https://www.mongodb.com/)
 
-### Code Splitting
+## Features
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- **All Hackathons At One Place** - Contains List of All hackathons at one place
+- **Finding Developers Made Easy** - Broad and Efficient Search Algorithm to find developers to collaborate with
+- **Chat** - In app chat feature 
+- **Strong Security System** - End to End Encrypted Messages and Google OAuth for Authentication.
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+<!-- GETTING STARTED -->
 
-### Making a Progressive Web App
+## Getting Started
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Setup PartnersInCrime on your local machine using these simple steps:
 
-### Advanced Configuration
+### Prerequisites
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- npm
+  ```sh
+  npm install npm@latest -g
+  ```
 
-### Deployment
+### Installation
+>For Frontend
+- Fork the repo
+- Clone the repo
+   ```sh
+   git clone https://github.com/your_username_/partners-in-crime.git
+   ```
+- Install NPM packages
+   ```sh
+   npm install
+   ```
+>For Backend
+- Visit [partners-in-crime-backend](https://github.com/shashank1503-cipher/partners-in-crime-backend) for backend repository
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+<!-- CONTRIBUTING -->
 
-### `npm run build` fails to minify
+## Contributing
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+<!-- LICENSE -->
+
+## License
+
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+
+<!-- CONTACT -->
+
+## Contact
+
+Shashank Kumar Srivastava - [@Shashan87956421](https://twitter.com/Shashan87956421) - [Linkedin](https://www.linkedin.com/in/shashank-srivastava-a72899201/) - shashank.srivastava25sks@gmail.com
+
+Akarsh Pandey - [Linkedin](https://www.linkedin.com/in/akarsh-pandey-238b471b0/) - akarshpandey20bcs83@iiitkottayam.ac.in
+
+Bhavya Goyal - [Linkedin](https://www.linkedin.com/in/bhavya-goyal-832418203/) - bhavyagoyal54@gmail.com
+
+Ishaan Mahesh - [Linkedin](https://www.linkedin.com/in/ishaan-mahesh/) - ishaanmahesh20bcs54@iiitkottayam.ac.in
+
+Project Link: [https://github.com/shashank1503-cipher/partners-in-crime](https://github.com/shashank1503-cipher/partners-in-crime)
+
+<!-- ACKNOWLEDGMENTS -->
+
+## Acknowledgments
+
+- [React Icons](https://react-icons.github.io/react-icons/search)
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+

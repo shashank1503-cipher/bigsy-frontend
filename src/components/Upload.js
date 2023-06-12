@@ -56,10 +56,8 @@ const Upload = () => {
       let formData = new FormData();
       formData.append("file", file);
       try {
-        formData.append("upload_preset", "partnersInCrime");
-        formData.append("cloud_name", "dpjf6btln");
         const res = await fetch(
-          "https://api.cloudinary.com/v1_1/dpjf6btln/raw/upload",
+          "http://localhost:5500/upload",
           {
             method: "POST",
             body: formData,
