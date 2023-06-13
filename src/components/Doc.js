@@ -1,14 +1,14 @@
 import { Box, Button, Flex, Image, Text } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
-import {useParams} from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
-import {FaLocationArrow} from 'react-icons/fa'
+import { FaLocationArrow } from 'react-icons/fa'
 import ReactAudioPlayer from 'react-audio-player'
 
 
-const KeyPair = ({keyy, value, cors}) => {
+const KeyPair = ({ keyy, value, cors }) => {
 
-  console.log(keyy, value,cors)
+  console.log(keyy, value, cors)
 
   return (
 
@@ -17,18 +17,18 @@ const KeyPair = ({keyy, value, cors}) => {
       bg={'rgba(0,0,0,0.2)'}
       p={2}
       rounded={'md'}
-      cursor={cors?"pointer":""}
+      cursor={cors ? "pointer" : ""}
     >
       <Text
         fontSize={20}
       >{keyy}</Text>
 
-      <Text 
+      <Text
         color={'gray.600'}
       >{value}</Text>
 
-      {cors?
-      <Button></Button>:<></>}
+      {cors ?
+        <Button></Button> : <></>}
 
     </Flex>
 
@@ -40,7 +40,7 @@ const KeyPair = ({keyy, value, cors}) => {
 
 function Doc() {
 
-  let {index, id} = useParams()
+  let { index, id } = useParams()
   console.log(index, id)
   const [doc, setDoc] = useState({
     index: "",
@@ -52,92 +52,92 @@ function Doc() {
   const TextDoc = () => {
     return (
       <Flex
-          direction={'row'}
-          wrap={'wrap'}
-          gap={5}
-        >
-        {doc && Object.keys(doc?.source)?.map(d => {  
+        direction={'row'}
+        wrap={'wrap'}
+        gap={5}
+      >
+        {doc && Object.keys(doc?.source)?.map(d => {
           return (
-            <KeyPair 
-              keyy={d} 
+            <KeyPair
+              keyy={d}
               value={doc?.source[d]}
             />
           )
         })
         }
-        </Flex>
+      </Flex>
     )
   }
 
   const ImageDoc = () => {
 
-    const {metadata, text_data, labels, objects, logos} = doc?.source
-    const {location, coordinates, date} = metadata
-      
-      return (
+    const { metadata, text_data, labels, objects, logos } = doc?.source
+    const { location, coordinates, date } = metadata
+
+    return (
+      <Flex
+        gap={4}
+        alignItems={'flex-start'}
+      >
+
         <Flex
-          gap={4}
-          alignItems={'flex-start'}
+          w={'full'}
+          direction={'column'}
+          gap={3}
         >
+          <KeyPair keyy={'date'} value={date || "no Date"} />
 
+
+          {/* <KeyPair keyy={'location'} value={location || "No Location"} cors={coordinates}/> */}
           <Flex
-            w={'full'}
-            direction={'column'}
-            gap={3}
+            direction={'row'}
+            bg={'rgba(0,0,0,0.2)'}
+            p={2}
+            rounded={'md'}
+            alignItems={'center'}
           >
-            <KeyPair keyy={'date'} value={date || "no Date"}/>
-
-            
-            {/* <KeyPair keyy={'location'} value={location || "No Location"} cors={coordinates}/> */}
             <Flex
-              direction={'row'}
-              bg={'rgba(0,0,0,0.2)'}
-              p={2}
-              rounded={'md'}
-              alignItems={'center'}
+              direction={'column'}
             >
-              <Flex
-                direction={'column'}
-              >
 
-                <Text
-                  fontSize={20}
-                  >Location</Text>
+              <Text
+                fontSize={20}
+              >Location</Text>
 
-                <Text 
-                  color={'gray.600'}
-                  >{location || "no Location"}</Text>
-              </Flex>
+              <Text
+                color={'gray.600'}
+              >{coordinates ? `${coordinates?.lat},${coordinates?.long}` : "No Location"} </Text>
+            </Flex>
 
-              {coordinates?
+            {coordinates ?
               <Box
                 p={2}
                 bg={'cyan.600'}
                 transition={'all 0.25s ease'}
                 rounded={'md'}
                 _hover={{
-                  bg:'cyan.700'
+                  bg: 'cyan.700'
                 }}
                 cursor="pointer"
                 onClick={() => window.open(`https://maps.google.com/?q=${coordinates?.lat},${coordinates?.long}`)}
               >
-                <FaLocationArrow fontSize={20}/>
+                <FaLocationArrow fontSize={20} />
               </Box>
-             :<></>}
+              : <></>}
 
-    </Flex>
-            
-            <Box
-              bg={'rgba(0,0,0,0.2)'}
-              rounded={'md'}
-              p={2}
-            >
-              <Text
-                fontSize={20}
-                fontWeight={500}
-                color={'cyan.600'}
-              >Texts{text_data?.original.length > 0?" (Original Text)":""}</Text>
-              {text_data?.original.length > 0?
+          </Flex>
+
+          <Box
+            bg={'rgba(0,0,0,0.2)'}
+            rounded={'md'}
+            p={2}
+          >
+            <Text
+              fontSize={20}
+              fontWeight={500}
+              color={'cyan.600'}
+            >Texts{text_data?.original.length > 0 ? " (Original Text)" : ""}</Text>
+            {text_data?.original.length > 0 ?
               <Flex
                 direction={'column'}
               >
@@ -145,95 +145,95 @@ function Doc() {
                   gap={2}
                   wrap={'wrap'}
                 >
-                {text_data?.original.map(t => (
-                  <Box bg={'gray.800'}>{t}</Box>
-                ))}
+                  {text_data?.original.map(t => (
+                    <Box bg={'gray.800'}>{t}</Box>
+                  ))}
                 </Flex>
-                  
-                {text_data?.translated.length > 0?
-                <Flex
-                  direction={'column'}
-                >
-                  <Text fontSize={20} color={'cyan.600'} fontWeight={500}>Translated (to English)</Text>              
-                  <Flex
-                     gap={2}
-                     wrap={'wrap'}
-                  >
-                    {text_data?.translated.map(t => (
-                      <Box bg={'gray.800'}>{t}</Box>
-                    ))}
 
-                  </Flex>    
-                </Flex>:<></>
+                {text_data?.translated.length > 0 ?
+                  <Flex
+                    direction={'column'}
+                  >
+                    <Text fontSize={20} color={'cyan.600'} fontWeight={500}>Translated (to English)</Text>
+                    <Flex
+                      gap={2}
+                      wrap={'wrap'}
+                    >
+                      {text_data?.translated.map(t => (
+                        <Box bg={'gray.800'}>{t}</Box>
+                      ))}
+
+                    </Flex>
+                  </Flex> : <></>
                 }
 
-              </Flex>:<Text>No text found in image</Text>
+              </Flex> : <Text>No text found in image</Text>
 
-              }
-            </Box>
+            }
+          </Box>
 
-            <Box
-              bg={'rgba(0,0,0,0.2)'}
-              rounded={'md'}
-              p={2}
+          <Box
+            bg={'rgba(0,0,0,0.2)'}
+            rounded={'md'}
+            p={2}
+          >
+            <Text
+              fontSize={20}
+              fontWeight={500}
+              color={'cyan.600'}
+            >Labels</Text>
+            <Flex
+              gap={2}
+              wrap={'wrap'}
             >
-              <Text
-                fontSize={20}
-                fontWeight={500}
-                color={'cyan.600'}
-              >Labels</Text>
-              <Flex
-                gap={2}
-                wrap={'wrap'}
-              >
 
-                {labels.length>0?labels?.map(l => (
-                  <Text
-                    bg={'gray.800'}
-                  >{l}</Text>
-                  )):"No labels detected"}
-              </Flex>
-            </Box>
+              {labels.length > 0 ? labels?.map(l => (
+                <Text
+                  bg={'gray.800'}
+                >{l}</Text>
+              )) : "No labels detected"}
+            </Flex>
+          </Box>
 
-            <Box
-              bg={'rgba(0,0,0,0.2)'}
-              rounded={'md'}
-              p={2}
+          <Box
+            bg={'rgba(0,0,0,0.2)'}
+            rounded={'md'}
+            p={2}
+          >
+            <Text
+              fontSize={20}
+              fontWeight={500}
+              color={'cyan.600'}
+            >Objects</Text>
+            <Flex
+              gap={2}
+              wrap={'wrap'}
             >
-              <Text
-                fontSize={20}
-                fontWeight={500}
-                color={'cyan.600'}
-              >Objects</Text>
-              <Flex
-                gap={2}
-                wrap={'wrap'}
-              >
 
-                {objects?.length > 0?objects?.map(l => (
-                  <Text
-                    bg={'gray.800'}
-                  >{l}</Text>
-                  )):"No objects in this pic"}
-              </Flex>
-            </Box>
+              {objects?.length > 0 ? objects?.map(l => (
+                <Text
+                  bg={'gray.800'}
+                >{l}</Text>
+              )) : "No objects in this pic"}
+            </Flex>
+          </Box>
 
 
-          </Flex>
-
-          <Image 
-            w={'50vw'}
-            maxW={'300px'}
-            src={doc?.source?.url}
-          />
         </Flex>
-      )
+
+        <Image
+          w={'50vw'}
+          maxW={'300px'}
+          src={doc?.source?.url}
+        />
+      </Flex>
+    )
 
   }
 
 
   const SoundDoc = () => {
-    
+
     return (
       <Flex
         direction={'column'}
@@ -263,11 +263,11 @@ function Doc() {
           autoPlay={true}
           controls
           controlsList='[noDownload]'
-          style={{css}
-            
+          style={{ css }
+
           }
-          />
-        
+        />
+
       </Flex>
     )
 
@@ -276,20 +276,21 @@ function Doc() {
 
 
   useEffect(() => {
-    
+
     const func = async () => {
       console.log(index, id)
       const res = await fetch(`http://localhost:8000/get/doc/${index}/${id}`)
 
       const json = await res.json()
-      setDoc({...json.data})
+      console.log(json)
+      setDoc({ ...json.data })
 
     }
 
     func()
-    
+
   }, [])
-  
+
   useEffect(() => {
     console.log(doc)
   }, [doc])
@@ -342,12 +343,12 @@ function Doc() {
 
       </Flex>
 
-      {doc?.source?.doc_type === 'text'?
-        <TextDoc/>
-        :doc?.source?.doc_type === 'image'?
-        <ImageDoc/>:
-        doc?.source?.doc_type === 'sound'?
-        <SoundDoc/>:<></>
+      {doc?.source?.doc_type === 'text' ?
+        <TextDoc />
+        : doc?.source?.doc_type === 'image' ?
+          <ImageDoc /> :
+          doc?.source?.doc_type === 'sound' ?
+            <SoundDoc /> : <></>
       }
 
       {/* <Button
