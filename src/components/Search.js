@@ -435,8 +435,9 @@ const Search = () => {
             direction={'column'}
             justifyContent="center"
             alignItems={'center'}
-            w={'full'}
+            w={'100vw'}
             gap={3}
+            wrap={'wrap'}
           >
             <Text
               fontSize={20}
@@ -444,6 +445,9 @@ const Search = () => {
             >DOCS</Text>
             <Flex
               gap={5}
+              wrap={'wrap'}
+              justifyContent="center"
+              alignItems={'center'}
             >
             {mainData['doc']?.map(m => {
 
@@ -479,6 +483,7 @@ const Search = () => {
                   direction={'column'}
                   position={'relative'}
                   onClick={() => window.open(m?._source?.url, '_blank')}
+                
                 >
                   <Text
                     position={'absolute'}

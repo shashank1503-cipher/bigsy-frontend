@@ -21,7 +21,7 @@ function ImportCsv() {
   const [name, setName] = useState("");
   const [sending, setSending] = useState(0);
   const toast = useToast();
-  let fileTypes = ["csv"];
+  let fileTypes = ["csv","xls"];
   const handleChange = (file) => {
     setFile(file);
   };

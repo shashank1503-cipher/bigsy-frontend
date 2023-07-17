@@ -36,7 +36,7 @@ const Upload = () => {
   let fileTypeMap = {
     image: ["png", "jpg", "jpeg", "gif", "svg"],
     pdf: ["pdf"],
-    doc: ["doc", "docx", "odt", "rtf", "txt"],
+    doc: ["doc", "docx", "odt", "rtf", "txt","xls"],
     sound: ["wav", "mp3", "ogg"],
   };
   let fileTypes = fileTypeMap[type];
@@ -142,6 +142,7 @@ const Upload = () => {
         });
         if (resp.status === 200) {
           let json = await resp.json();
+          let errors = json.errors ? json.errors : ""
           toast({
             title: "Success",
             description: `Succesfully Added it to Index`,
@@ -149,6 +150,15 @@ const Upload = () => {
             duration: 9000,
             isClosable: true,
           });
+          if (errors){
+            toast({
+              title: "Warning",
+              description: `Error analyzing ${errors} `,
+              status: "warning",
+              duration: 9000,
+              isClosable: true,
+            });
+          }
           setFile(null);
           setFileUrl(null);
           setName("");
